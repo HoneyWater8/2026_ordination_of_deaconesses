@@ -1,0 +1,67 @@
+/* ─────────────────────────────────────────────────────────
+   Bloom · 권사 임직 감사예배 디자인 토큰
+   FE-legacy/README.md 「Design Tokens」의 B · bloom 확정값과 1:1 대응
+   ───────────────────────────────────────────────────────── */
+
+export const BL = {
+  /** 460px 루트 바깥 여백 — body 배경과 일치시킨다 */
+  outer:    '#F3E1DB',
+  /** 기본 배경 — 첫 화면·일시·임직자·갤러리·마지막 화면 */
+  bg:       '#FFF8F4',
+  /** 교차 배경 — 모시는 글·순서·오시는 길·안내 */
+  bg2:      '#FCEEE9',
+
+  text:     '#3A2A2C',
+  textSoft: '#6B585A',
+
+  /** 작은 글씨용 강조색 — bg 위 4.86:1. 영문 라벨·꽃 이름·배지·달력 강조 */
+  label:    '#B44B60',
+  /** 장식·큰 글씨 전용 — bg 위 4.14:1이라 24px 미만 텍스트 금지 (작은 글씨는 label) */
+  accent:   '#C2566A',
+  /** 장식 전용 초록 — 2.41:1이라 텍스트 금지 */
+  accent2:  '#8FAA8A',
+  onAccent: '#FFFFFF',
+
+  line:     'rgba(58,42,44,0.16)',
+  card:     '#FFFFFF',
+  cardLine: 'rgba(58,42,44,0.12)',
+  cardRadius: 18,
+  cardShadow: '0 10px 28px rgba(194,86,106,0.08)',
+
+  /** 사진·지도 자리 배경 — 이 위의 label은 3.99:1이라 큰 글씨(이니셜)·placeholder에만 */
+  photo:    '#F7DEDA',
+};
+
+export const FF = {
+  /** 제목·구절 — 고운바탕 */
+  display: '"Ordain Batang", serif',
+  /** 본문 — 프리텐다드 */
+  body:    '"Ordain Sans", -apple-system, sans-serif',
+  /** 영문·숫자 전용. ⚠ 한글 글리프가 없어 한글 섞인 문자열에 쓰면 서체가 갈라짐 */
+  latin:   '"Ordain Garamond", "Ordain Batang", serif',
+};
+
+/** 모션 값 — 핸드오프 프로토타입의 타이밍 그대로 */
+export const MOTION = {
+  /** 스크롤 진입 — 페이드 + 상승 */
+  revealOpacity:   'opacity .8s ease',
+  revealTransform: 'transform .9s cubic-bezier(.22,1,.36,1)',
+
+  /** 구분선 가운데 꽃이 피어남 — scale 0 → 1 + 회전 (살짝 튀어 오르는 곡선) */
+  ornBloom:   'transform 1.1s cubic-bezier(.34,1.56,.64,1) .15s',
+  /** 구분선 양옆 선이 가운데서 펼쳐짐 */
+  ornLine:    'transform 1s cubic-bezier(.22,1,.36,1) .35s',
+  /** 꽃이 핀 뒤 캡션 등장 */
+  captionIn:  'opacity .8s ease .9s, transform .8s ease .9s',
+
+  /** 첫 화면 하단 SCROLL 바운스 */
+  scrollBob:  'od-bob 2.2s ease-in-out infinite',
+  /** 말씀 해설 시트 */
+  sheetFade:  'od-fade-in .25s ease-out',
+  sheetIn:    'od-sheet-in .42s cubic-bezier(.22,1,.36,1)',
+};
+
+/** 루트 레이아웃 */
+export const LAYOUT = {
+  maxWidth: 460,
+};

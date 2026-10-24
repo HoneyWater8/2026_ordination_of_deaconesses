@@ -1,0 +1,113 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  /* 스크롤 바운스 시 다른 색이 노출되지 않도록 루트 바깥 여백색과 일치 */
+  background: #F3E1DB;
+  font-family: 'Ordain Sans', -apple-system, sans-serif;
+  color: #3A2A2C;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+a { color: #B44B60; }
+a:hover { color: #3A2A2C; }
+button { font-family: inherit; }
+
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+/* 꽃 애니메이션(살랑·회전·낙하)은 전부 .od-anim — 모션 감소 설정이면 멈춘다 */
+@media (prefers-reduced-motion: reduce) {
+  .od-anim { animation: none !important; }
+}
+
+/* 첫 화면 하단 SCROLL 바운스 */
+@keyframes od-bob {
+  0%, 100% { transform: translateY(0); opacity: .55; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+
+/* 꽃 — 살랑 (가지, 모서리 꽃) */
+@keyframes od-sway {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-8px) rotate(9deg); }
+}
+
+/* 꽃 — 천천히 회전 (구분선 가운데 한 송이) */
+@keyframes od-turn {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(36deg); }
+}
+
+/* 첫 화면 꽃잎 — 화면 높이만큼 흩날리며 낙하 */
+@keyframes od-fall {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  8%   { opacity: .9; }
+  50%  { transform: translate(34px, 48vh) rotate(200deg); }
+  92%  { opacity: .8; }
+  100% { transform: translate(-12px, 100vh) rotate(380deg); opacity: 0; }
+}
+
+/* 섹션 꽃잎 — 세로 이동과 좌우 흔들림을 별도 레이어로 분리.
+   od-fall-y는 섹션 높이의 래퍼를 자기 높이(100%)만큼 내려 섹션 맨 위에서 맨 아래까지 떨어뜨린다 */
+@keyframes od-fall-y {
+  0%   { transform: translateY(-30px); opacity: 0; }
+  5%   { opacity: .9; }
+  95%  { opacity: .8; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+@keyframes od-spin-x {
+  0%   { transform: translateX(-14px) rotate(-30deg); }
+  100% { transform: translateX(26px) rotate(210deg); }
+}
+
+/* 말씀 해설 시트 — 배경 페이드 + 아래에서 올라옴 */
+@keyframes od-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes od-sheet-in {
+  from { transform: translateY(100%); }
+  to   { transform: none; }
+}
+
+/* 공유 토스트 — 아래에서 살짝 올라오며 페이드인.
+   translateX(-50%)는 가운데 정렬 보정이라 키프레임마다 유지해야 한다. */
+@keyframes od-toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* 갤러리 확대 보기 — 배경이 덮이며 페이드인 */
+@keyframes od-lightbox-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* 사진 모달 — 살짝 커지며 떠오름 */
+@keyframes od-modal-in {
+  from { opacity: 0; transform: scale(.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* 사진 모달 닫힘 — 배경이 걷히고 모달이 살짝 작아지며 사라짐 */
+@keyframes od-lightbox-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes od-modal-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(.96); }
+}

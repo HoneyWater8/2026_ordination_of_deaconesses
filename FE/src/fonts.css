@@ -1,0 +1,51 @@
+/* 부분 폰트의 원본·라이선스는 public/licenses/fonts에 기록한다. URL은 빌드 시 해시가 붙는다.
+   내부 이름 Ordain * — Pretendard의 OFL Reserved Font Name 때문에 세 서체 모두 이름을 바꿨다. */
+@font-face {
+  font-family: 'Ordain Batang';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/batang-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ordain Batang';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./assets/fonts/batang-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ordain Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./assets/fonts/sans-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ordain Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('./assets/fonts/sans-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ordain Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('./assets/fonts/sans-800.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ordain Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./assets/fonts/garamond-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ordain Garamond';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./assets/fonts/garamond-600-italic.woff2') format('woff2');
+}
