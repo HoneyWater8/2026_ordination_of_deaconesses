@@ -19,8 +19,8 @@
     # 원문 순서 번호로 FE/public/ordainees/NN.webp를 만든다. 명단에 없는 이름은 건너뛰고 알린다.
     python scripts/resize-photos.py --ordainees assets/photo-originals/ordainees
 
-그다음 FE/src/data/ordination.ts에서 갤러리는 photosOf("gallery", <장수>, "갤러리")의 장수를,
-임직자는 ordaineePhotos를 true로 바꾼다.
+그다음 FE/src/data/ordination.ts에서 갤러리는 photosOf("gallery", [비율, …], "갤러리")에 사진마다
+원본 비율(아래에 출력된다)을 적고 gallery.rows(줄마다 사진 수)를 맞춘다. 임직자는 ordaineePhotos를 true로 바꾼다.
 
 기존 출력은 덮어쓰지 않는다. 사진을 바꿀 때만 --force를 준다.
 원본 폴더(assets/photo-originals/)는 .gitignore 처리되어 저장소에 올라가지 않는다.
@@ -99,6 +99,8 @@ if args.source:
             dst = os.path.join(PUBLIC, args.slug, sub, f'{i:02d}.webp')
             out.save(dst, 'WEBP', quality=quality, method=6)
             total_out += os.path.getsize(dst)
+        # 갤러리 칸은 사진 비율대로 잡으므로 데이터에 옮겨 적을 비율을 알려 준다.
+        print(f'  {i:02d}  {im.width}x{im.height}  비율 {im.width / im.height:.3f}  ({os.path.basename(path)})')
     print(f'{args.slug}: {len(files)}장 → {args.start:02d}~{args.start + len(files) - 1:02d}')
 
 if args.ordainees:

@@ -47,6 +47,8 @@ export type GalleryPhoto = {
   thumb: string;
   /** 확대 보기용. 카드를 눌렀을 때만 로드된다 */
   full: string;
+  /** 원본 가로/세로 비율 — 칸을 사진 비율대로 미리 잡아 두어 로드 전후로 배치가 흔들리지 않게 한다 */
+  ratio: number;
 };
 
 export type GalleryVideo = {
@@ -75,8 +77,8 @@ export type OrdinationData = {
   /** 임직자 사진이 준비되면 true — public/ordainees/NN.webp (NN = 원문 순서) */
   ordaineePhotos: boolean;
   gallery: {
-    /** 그리드 칸 수. 사진이 모자란 칸은 번호 placeholder로 남는다 */
-    slots: number;
+    /** 줄마다 놓을 사진 수 (사진 순서대로 채운다). 같은 줄은 높이를 맞추고 폭은 비율대로 나눈다 */
+    rows: number[];
     photos: GalleryPhoto[];
     video: GalleryVideo;
   };

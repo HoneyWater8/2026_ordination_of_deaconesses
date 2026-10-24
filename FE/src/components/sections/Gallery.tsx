@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BL, FF } from '../../theme/tokens';
 import { O } from '../../data/ordination';
+import type { GalleryPhoto } from '../../data/types';
 import { track } from '../../utils/analytics';
 import { Section } from '../common/Section';
 import { SectionHead } from '../common/SectionHead';
@@ -8,51 +9,60 @@ import { Reveal } from '../common/Reveal';
 import { Lightbox } from '../common/Lightbox';
 import { YouTubeEmbed } from '../common/YouTubeEmbed';
 
-/** 2열 그리드에서 한 줄을 다 쓰는 칸 — 시안의 리듬(넓게 · 2 · 2 · 넓게 · 2) */
-const WIDE = new Set([0, 5]);
+type Cell = { photo: GalleryPhoto; index: number };
+
+/** 사진을 rows([1, 2, 1 …])대로 순서대로 끊는다. rows 합보다 사진이 많으면 남는 사진은 한 장씩 한 줄로 */
+function toRows(photos: GalleryPhoto[], rows: number[]): Cell[][] {
+  const cells = photos.map((photo, index) => ({ photo, index }));
+  const out: Cell[][] = [];
+  let i = 0;
+  for (const n of rows) {
+    if (i >= cells.length) break;
+    out.push(cells.slice(i, i + n));
+    i += n;
+  }
+  for (; i < cells.length; i++) out.push([cells[i]]);
+  return out;
+}
+
+const ROWS = toRows(O.gallery.photos, O.gallery.rows);
 
 /**
- * 07 갤러리 — 교회 사진 2열 그리드 + 20주년 기념 영상(YouTube).
- * 사진이 아직 없는 칸은 번호 자리로 남는다. 사진을 누르면 확대 보기.
+ * 07 갤러리 — 교회 사진 + 20주년 기념 영상(YouTube). 사진을 누르면 확대 보기.
+ * 칸은 사진 비율 그대로다 — 같은 줄의 칸은 flex-grow를 비율로 주어 높이가 같아지고 폭은 비율대로 나뉜다.
+ * 시안의 2열 정사각 칸(넓게 · 2 · 2 · 넓게 · 2)은 받은 사진이 모두 가로라 많이 잘려 2026-10-25 바꿨다.
  */
 export function Gallery() {
-  const { slots, photos, video } = O.gallery;
+  const { photos, video } = O.gallery;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <Section alt label="07 Gallery">
       <SectionHead en="Gallery" ko="갤러리" />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,minmax(0,1fr))', gap: 8 }}>
-        {Array.from({ length: slots }, (_, i) => {
-          const wide = WIDE.has(i);
-          const photo = photos[i];
-          return (
-            <div key={i} style={{ gridColumn: wide ? '1 / -1' : 'auto' }}>
-              <Reveal delay={(i % 2) * 0.06} y={12}>
-                <div data-role="gallery-photo" data-index={i} style={{
-                  aspectRatio: wide ? '16 / 10' : '1 / 1', borderRadius: 12, overflow: 'hidden',
-                  background: BL.photo, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  {photo ? (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {ROWS.map((row, r) => (
+          <div key={r} style={{ display: 'flex', gap: 8 }}>
+            {row.map(({ photo, index }, j) => (
+              <div key={index} style={{ flex: `${photo.ratio} 1 0`, minWidth: 0 }}>
+                <Reveal delay={j * 0.06} y={12}>
+                  <div data-role="gallery-photo" data-index={index} style={{
+                    aspectRatio: photo.ratio, borderRadius: 12, overflow: 'hidden', background: BL.photo,
+                  }}>
                     <button
                       type="button"
                       aria-label={`${photo.caption} 크게 보기`}
-                      onClick={() => { track('photo_open'); setOpenIndex(i); }}
+                      onClick={() => { track('photo_open'); setOpenIndex(index); }}
                       style={{ width: '100%', height: '100%', padding: 0, border: 0, background: 'none', cursor: 'pointer' }}
                     >
                       <img src={photo.thumb} alt={photo.caption} loading="lazy" decoding="async"
                         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                     </button>
-                  ) : (
-                    <span aria-hidden="true" style={{ fontFamily: FF.latin, fontWeight: 600, fontSize: 18, letterSpacing: 2, color: BL.label }}>
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                  )}
-                </div>
-              </Reveal>
-            </div>
-          );
-        })}
+                  </div>
+                </Reveal>
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
 
       {/* 담당자 목록의 「20주년 기념 영상?」 — 사진 아래에 이어 둔다. 교회 YouTube 채널 영상 */}

@@ -12,15 +12,16 @@ import logoUrl from '../assets/logo.webp';
  * 갤러리 사진 경로 생성.
  *
  * 원본을 `FE/public/gallery/{thumb,full}/NN.webp` 규칙으로 미리 줄여 두므로
- * 파일명을 나열하지 않고 장수만 적는다. (원본 → 2벌 생성은 README 「콘텐츠 교체 방법」)
+ * 파일명을 나열하지 않고 사진마다 원본 비율(가로/세로)만 적는다. (원본 → 2벌 생성은 README 「콘텐츠 교체 방법」)
  */
-function photosOf(slug: string, count: number, label: string): GalleryPhoto[] {
-  return Array.from({ length: count }, (_, i) => {
+function photosOf(slug: string, ratios: number[], label: string): GalleryPhoto[] {
+  return ratios.map((ratio, i) => {
     const n = String(i + 1).padStart(2, '0');
     return {
       caption: `${label} 사진 ${i + 1}`,
       thumb: `/${slug}/thumb/${n}.webp`,
       full: `/${slug}/full/${n}.webp`,
+      ratio,
     };
   });
 }
@@ -80,10 +81,21 @@ export const O: OrdinationData = {
   // 임직 예정자 카톡방에서 받은 사진. 사진이 아직 없는 사람은 화면에서 성(첫 글자)으로 대신한다.
   ordaineePhotos: true,
 
-  // 갤러리 — 교회 사진 8장 (담당자 전달, 파일 미수령). 그 아래에 20주년 기념 영상.
+  // 갤러리 — 교회 사진 8장 (담당자 전달, 2026-10-25 사용자가 번호를 붙여 저장). 그 아래에 20주년 기념 영상.
+  // 모두 가로 사진이라 정사각 칸에 넣으면 많이 잘린다 — 같은 줄은 높이를 맞추고 폭을 비율대로 나눠 자르지 않는다.
+  // 비율이 같은 3:2끼리(또는 비슷한 16:9와) 한 줄에 두고, 파노라마(04·05)와 첫·끝 사진은 한 줄을 다 쓴다.
   gallery: {
-    slots: 8,
-    photos: photosOf('gallery', 0, '갤러리'),
+    rows: [1, 2, 1, 1, 2, 1],
+    photos: photosOf('gallery', [
+      1.5,   // 01 교회 외관
+      1.5,   // 02 교회 외관 (항공)
+      1.778, // 03 설교
+      1.965, // 04 본당 예배 (파노라마)
+      2.628, // 05 본당 전경 (파노라마)
+      1.5,   // 06 기도
+      1.498, // 07 야외 찬양
+      1.5,   // 08 운동장 행사
+    ], '갤러리'),
     video: {
       title: '20주년 기념 영상',
       // 김포하나로교회 채널(@HANAROCH)의 「김포 하나로교회 20주년 기념 홍보 영상 (라라랜드 커버)」.
