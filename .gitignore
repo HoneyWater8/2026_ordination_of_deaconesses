@@ -1,0 +1,11 @@
+# 담당자 대화 원본 — 실명이 그대로 담겨 있어 커밋하지 않는다.
+# 저장소에는 익명화 버전(docs/chat-transcript.txt)만 포함한다.
+docs/담당자 대화*.txt
+
+# 사진 원본 — 줄인 사본만 FE/public/ 아래에 커밋한다.
+# 재생성: python scripts/resize-photos.py
+assets/photo-originals/
+
+# 폰트 원본 캐시 — 부분 폰트만 FE/src/assets/fonts/에 커밋한다.
+# 재생성: python scripts/prepare-fonts.py
+assets/font-work/
