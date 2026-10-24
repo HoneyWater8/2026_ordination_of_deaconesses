@@ -3,7 +3,7 @@
    ───────────────────────────────────────────────────────── */
 
 import { useRef } from 'react';
-import { BL, FF, MOTION } from '../../theme/tokens';
+import { BL, FF } from '../../theme/tokens';
 import { O } from '../../data/ordination';
 import { useSectionView } from '../../hooks/useSectionView';
 import { useInView } from '../../hooks/useInView';
@@ -12,6 +12,7 @@ import { Reveal } from '../common/Reveal';
 import { Logo } from '../common/Logo';
 import { FlowerOrn } from '../common/FlowerOrn';
 import { FlowerCaption } from '../common/FlowerCaption';
+import { ScrollHint } from '../common/ScrollHint';
 import { Flower, FlowerBit } from '../common/Flower';
 
 const HERO_FLOWER = O.flowers.bySection['01 Hero'] ?? 'almond';
@@ -43,11 +44,12 @@ function HeroDeco({ playing }: { playing: boolean }) {
         </div>
       ))}
       {/* 모션 감소 모드에선 꽃잎을 그리지 않는다 — 멈춘 꽃잎이 화면 위쪽에 박제된 채 남는다 */}
-      {!reduced && [0, 1, 2].map(i => (
+      {/* 4장 — 3장에서 하나 늘림 (2026-10-25 사용자 요청 「살짝만」) */}
+      {!reduced && [0, 1, 2, 3].map(i => (
         <div key={'petal' + i} className="od-anim" style={{
-          position: 'absolute', top: -24, left: `${18 + i * 30}%`,
+          position: 'absolute', top: -24, left: `${12 + i * 25}%`,
           animation: `od-fall ${16 + i * 3}s linear -${i * 5}s infinite ${playState}`,
-        }}><FlowerBit kind={HERO_FLOWER} size={13 + i * 3} /></div>
+        }}><FlowerBit kind={HERO_FLOWER} size={13 + (i % 3) * 3} /></div>
       ))}
     </div>
   );
@@ -107,14 +109,7 @@ export function Hero() {
         </Reveal>
       </div>
 
-      {/* 아래에 더 있다는 표시. 첫 화면에만 있어 스크롤하면 함께 지나간다 */}
-      <div aria-hidden="true" className="od-anim" style={{
-        position: 'absolute', bottom: 30, left: 0, right: 0, display: 'flex', flexDirection: 'column',
-        alignItems: 'center', gap: 4, color: BL.textSoft, animation: `${MOTION.scrollBob} ${playing ? 'running' : 'paused'}`,
-      }}>
-        <span style={{ fontFamily: FF.latin, fontWeight: 600, fontSize: 11, letterSpacing: 3 }}>SCROLL</span>
-        <svg width="12" height="8" viewBox="0 0 12 8"><path d="M1 1 L6 6 L11 1" fill="none" stroke="currentColor" strokeWidth="1.4" /></svg>
-      </div>
+      <ScrollHint playing={playing} />
     </section>
   );
 }

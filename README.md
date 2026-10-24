@@ -27,7 +27,7 @@
 | 오시는 길 · 카카오 지도 | ✅ 지도 + 카카오맵·네이버지도·T맵 길찾기 + 주소 복사 |
 | 갤러리 사진 8장 | ✅ 반영 (2026-10-25) — 칸을 사진 비율대로 (자르지 않음) |
 | 20주년 기념 영상 | ✅ 교회 YouTube 채널 영상 임베드 (갤러리 사진 아래) |
-| 로고 | ✅ 가족 한마당 레포의 하나로교회 로고 — 흰 배경 제거 (2026-10-24) |
+| 로고 | ✅ 가족 한마당 레포의 하나로교회 로고 — 흰 배경 제거 (2026-10-24). 누르면 교회 홈페이지(`hanaroch.org`)를 새 창으로 (2026-10-25) |
 | 공유 썸네일 · 탭 아이콘 | ✅ 1200×630 썸네일(로고·제목·일시·살구꽃) / ✅ 탭 아이콘은 첫 화면의 꽃(살구꽃) |
 | 카카오톡 공유 | ✅ 공유 앱 JavaScript 키 등록 (2026-10-25) — 버튼에서 바로 카카오톡 대화방 선택 |
 | 사용자 집계 | ✅ Vercel Web Analytics 활성화 / ⏳ GA4 측정 ID 미수령 |
@@ -69,7 +69,7 @@
 
 | # | 섹션 | 핵심 요소 |
 |---|---|---|
-| 01 | **Hero** | 로고 · 교회명 · `Ordination Thanksgiving Service` · 「권사 *임직* / 감사예배」 · 꽃 구분선 · 일시·장소 · 살구꽃 캡션 · 모서리 살구꽃 가지와 흩날리는 꽃잎 · SCROLL |
+| 01 | **Hero** | 로고 · 교회명 · `Ordination Thanksgiving Service` · 「권사 *임직* / 감사예배」 · 꽃 구분선 · 일시·장소 · 살구꽃 캡션 · 모서리 살구꽃 가지와 흩날리는 꽃잎<br>하단 SCROLL 힌트 — 스크롤하지 않은 채 3초가 지나면 나타나고, 한 번이라도 스크롤하면 사라져 다시 나오지 않음 (졸업 레포와 같은 동작) |
 | 02 | **모시는 글** | 담당자 초대글 원문 + 「하나로교회」 |
 | 03 | **예배 일시** | 날짜·시간 + D-day 배지 + 11월 달력(8일 강조, 일요일 「주」) |
 | 05 | **임직받으시는 분** | 「66명의 권사님을 세웁니다」 + 4열 원형 사진 그리드(가나다순). 동명이인 접미사(`김영남B`)는 작게. 탭해도 확대하지 않음 |
@@ -110,13 +110,13 @@
 │   │   │   ├── types.ts                # OrdinationData · FlowerKind · SectionLabel
 │   │   │   └── ordination.ts           # 모든 정적 콘텐츠 (교체 지점)
 │   │   ├── hooks/                      # useReveal · useInView · useSectionView ·
-│   │   │                               #   useSectionFlower · usePrefersReducedMotion
+│   │   │                               #   useSectionFlower · usePrefersReducedMotion · useScrolled
 │   │   ├── components/
 │   │   │   ├── sections/               # Hero, Invite, Schedule, Ordainees,
 │   │   │   │                           #   Location, Gallery, Notice, Footer
 │   │   │   └── common/                 # Flower(꽃 8종 SVG), Section, SectionHead, SectionFlowers,
 │   │   │                               #   FlowerOrn, FlowerCaption, VerseSheet, Card, Calendar,
-│   │   │                               #   Logo, KakaoMap, CopyButton, Lightbox, YouTubeEmbed, ShareFAB
+│   │   │                               #   Logo, KakaoMap, CopyButton, Lightbox, YouTubeEmbed, ShareFAB, ScrollHint
 │   │   └── utils/
 │   │       ├── kakaoMap.ts             # Kakao Maps SDK 로더 (VITE_KAKAO_MAP_KEY)
 │   │       ├── mapLinks.ts             # 카카오맵·네이버지도·T맵 딥링크
@@ -271,7 +271,7 @@ python scripts/resize-photos.py --source assets/photo-originals/gallery --slug g
 
 **20주년 기념 영상** — 교회 YouTube 채널의 영상을 임베드합니다. 바꾸려면 `gallery.video.youtubeId`(`youtu.be/<ID>`의 ID)만 고칩니다. 업로더가 외부 임베드를 막은 영상은 재생되지 않으니 `https://www.youtube.com/oembed?url=<영상 주소>&format=json`이 200을 주는지 먼저 확인합니다.
 
-**로고** — 원본은 [2026 하나로 가족 한마당](https://github.com/HoneyWater8/2026_hanaro_family_festival) 레포의 `FE/public/icons/hanaro.png`(흰 배경)이며 `assets/logo/hanaro.png`에 두었습니다. `python scripts/prepare-logo.py`가 흰 배경을 투명하게 바꿔 `FE/src/assets/logo.webp`(240px, 무손실)를 만듭니다 — 붉은 띠 안의 흰 글자는 그대로 두고 나머지 흰색만 「흰색 → 투명」으로 바꾸므로 띠 글자에 구멍이 뚫리지 않고 획 가장자리에 흰 테두리가 남지 않습니다.
+**로고** — 원본은 [2026 하나로 가족 한마당](https://github.com/HoneyWater8/2026_hanaro_family_festival) 레포의 `FE/public/icons/hanaro.png`(흰 배경)이며 `assets/logo/hanaro.png`에 두었습니다. `python scripts/prepare-logo.py`가 흰 배경을 투명하게 바꿔 `FE/src/assets/logo.webp`(240px, 무손실)를 만듭니다 — 붉은 띠 안의 흰 글자는 그대로 두고 나머지 흰색만 「흰색 → 투명」으로 바꾸므로 띠 글자에 구멍이 뚫리지 않고 획 가장자리에 흰 테두리가 남지 않습니다. 첫 화면·마지막 화면의 로고는 `homepage`(교회 홈페이지)를 새 창으로 엽니다 — 링크 영역은 로고 크기만큼.
 
 **탭 아이콘** — 첫 화면의 꽃(살구꽃) 그림을 1024px로 렌더링해 내용만 잘라 정사각 여백 8%로 가운데 두고 `favicon-32`·`favicon-180`(투명)과 `apple-touch-icon`(배경색 `#FFF8F4` — iOS는 투명을 검게 채움)을 만들었습니다 (졸업 레포 왁스 씰 아이콘과 같은 방식).
 
@@ -318,6 +318,9 @@ BL.photo    = '#F7DEDA'   // 사진·지도 자리
 8. **마지막 화면** — 저작권과 `DESIGNED & DEVELOPED BY HONEYWATER`를 화면 하단에 둡니다. 시안에는 제작자 표기가 없었고, 두 참고 레포의 표기·졸업 레포의 하단 배치 요청을 따랐습니다.
 9. **추가한 것** — 오시는 길의 실제 지도·길찾기·주소 복사(가족 한마당), 갤러리 확대 보기·공유 버튼(졸업), 20주년 영상(YouTube 임베드).
 10. **YouTube는 표준 플레이어 + 지연 로딩** — 졸업 레포처럼 포스터를 먼저 보여 주고 누르면 플레이어로 바꾸면, 아이폰에서 두 번 눌러야 재생됩니다. 그 방식을 쓴 이유(자체 호스팅 전송량)가 YouTube에는 없어 표준 플레이어를 `loading="lazy"`로 둡니다. Referer를 지우면 YouTube가 재생 오류로 막습니다.
+11. **갤러리 칸은 사진 비율대로** — 시안의 2열 정사각 칸(넓게·2·2·넓게·2)은 받은 사진이 모두 가로라 많이 잘렸습니다. 같은 줄은 높이를 맞추고 폭을 비율대로 나눕니다 (2026-10-25 사용자 요청).
+12. **SCROLL 힌트는 늦게** — 시안은 처음부터 떠 있었습니다. 졸업 레포처럼 스크롤하지 않은 채 3초가 지나면 나타나고, 한 번 스크롤하면 다시 나오지 않습니다 (2026-10-25 사용자 요청).
+13. **꽃잎 수** — 시안의 「섹션 높이 / 420, 최소 2」, 첫 화면 3장에서 「섹션 높이 / 320, 최소 3」, 첫 화면 4장으로 화면 하나에 한 장꼴 늘렸습니다 (2026-10-25 사용자 요청 「살짝만」).
 
 ---
 
@@ -348,7 +351,7 @@ Claude Design 핸드오프 번들 중 이번 프로젝트 자료만 옮겼습니
 - [x] ~~카카오 공유 앱 JavaScript 키~~ — 2026-10-25 `VITE_KAKAO_JS_KEY` (Vercel Production·Preview)
 - [ ] GA4 측정 ID → `index.html` 표준 스니펫
 - [x] ~~첫 배포 후 프로덕션 별칭 · 배포 주소에서 지도~~ — 2026-10-24 확인
-- [ ] 공유 키·썸네일을 넣은 뒤 카카오톡 공유 카드 확인 · 아이폰/카카오 인앱 실기기 확인
+- [ ] 아이폰/카카오 인앱 실기기 확인 — 카카오톡 공유(키 적용 후)는 2026-10-25 사용자가 휴대폰에서 동작 확인
 
 ---
 

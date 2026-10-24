@@ -8,8 +8,9 @@ import { Flower, FlowerBit } from './Flower';
 
 /** 꽃잎이 섹션 맨 위에서 맨 아래까지 떨어지는 속도 (px/s) */
 const FALL_SPEED = 55;
-/** 이 높이마다 꽃잎 하나 (최소 2개) */
-const PETAL_EVERY = 420;
+/** 이 높이마다 꽃잎 하나 (최소 MIN_PETALS개). 420px · 최소 2개에서 화면 하나에 한 장꼴로 늘림 (2026-10-25) */
+const PETAL_EVERY = 320;
+const MIN_PETALS = 3;
 
 type SectionFlowersProps = {
   kind: FlowerKind;
@@ -46,7 +47,7 @@ export function SectionFlowers({ kind, seed }: SectionFlowersProps) {
   const cornerB: CSSProperties = sprig ? { bottom: -12, [flip ? 'right' : 'left']: -30 } : { bottom: -26, [flip ? 'right' : 'left']: -30 };
   const tilt = sprig ? 0 : (h % 40) - 20;
   const playState = inView ? 'running' : 'paused';
-  const petals = reduced ? 0 : Math.max(2, Math.round(sectionHeight / PETAL_EVERY));
+  const petals = reduced ? 0 : Math.max(MIN_PETALS, Math.round(sectionHeight / PETAL_EVERY));
 
   return (
     <div ref={boxRef} aria-hidden="true" style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>

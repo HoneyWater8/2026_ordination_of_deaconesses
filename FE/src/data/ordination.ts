@@ -33,6 +33,8 @@ export const O: OrdinationData = {
   titleEn: 'Ordination Thanksgiving Service',
   heroTitle: { lead: '권사', accent: '임직', sub: '감사예배' },
   logo: logoUrl,
+  // 2026-10-25 사용자 요청 — 로고를 누르면 교회 홈페이지로
+  homepage: 'https://hanaroch.org',
 
   date: { y: 2026, m: 11, d: 8, dayKo: '주일', time: '오후 2시' },
 
