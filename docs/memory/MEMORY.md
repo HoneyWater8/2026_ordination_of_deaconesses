@@ -12,7 +12,7 @@
 - [개인 GitHub identity](./github-identity.md) — HoneyWater8 / 전역 git config는 회사 이메일이라 주의
 - [카카오 앱 설정](./kakao-app-setup.md) — 지도·공유가 **다른 앱의 키**. 지도는 가족 한마당 앱(무료 쿼터). 공유 키 미수령
 - [Vercel 배포 설정](./vercel-deploy-setup.md) — 2026-10-23 CLI로 생성·졸업과 같은 설정·Git 연결. 2026-10-24 첫 배포. main 자동 배포만 사용
-- [자산 파이프라인](./asset-pipeline.md) — 원본은 커밋하지 않음. 임직자 사진·갤러리·썸네일 수령 대기. 로고(배경 제거)·탭 아이콘(살구꽃) 제작 방법. 영상은 YouTube 임베드
+- [자산 파이프라인](./asset-pipeline.md) — 원본은 커밋하지 않음. 임직자 사진·갤러리 수령 대기. 로고(배경 제거)·탭 아이콘(살구꽃)·공유 썸네일 제작 방법. 영상은 YouTube 임베드
 - [Windows 개발 서버 잔류 프로세스](./windows-dev-server.md) — 백그라운드 `npx vite`를 끄면 자식 node가 남아 포트를 잡는다
 - [사용자 집계 설정](./analytics-setup.md) — Vercel 활성화 완료, GA4 측정 ID 대기. **2026-12 초 전에 Vercel 대시보드 캡처**
 
