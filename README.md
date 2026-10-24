@@ -217,7 +217,7 @@ npx vercel link --yes --project 2026_ordination_of_deaconesses --team su-heon-ch
 ### 배포 후 확인할 것
 
 - ✅ **도메인 일치** — 프로덕션 별칭이 `https://2026ordinationofdeaconesses.vercel.app`로 `FE/index.html`의 OG 태그(`og:url` · `og:image` · `twitter:image`)와 같습니다 (2026-10-24). 도메인을 바꾸면 세 곳과 카카오 제품 링크 관리를 함께 바꾸세요.
-- **공유 썸네일** `public/icons/thumbnail.png`(1200×630)는 `scripts/thumbnail.html`을 Chrome에서 1200×630(DPR 2)으로 캡처해 줄인 것입니다. 첫 화면과 같은 서체·색으로 로고·제목·일시·장소를 가운데 630px 안에(카카오 일부 화면은 정사각으로 자름) 두고 양옆에 살구꽃을 놓았습니다. 문구가 바뀌면 HTML을 고쳐 다시 캡처합니다. 카카오는 OG 이미지를 URL 단위로 캐싱하므로, 공유한 뒤 같은 경로의 파일만 바꾸면 옛 이미지가 나갈 수 있습니다 — [공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 캐시를 초기화하거나 파일명을 바꾸세요.
+- **공유 썸네일** `public/icons/thumbnail.png`(1200×630)는 `scripts/thumbnail.html`을 Chrome에서 1200×630(DPR 2)으로 캡처해 줄인 것입니다. 첫 화면과 같은 서체·색으로 로고·제목·일시·장소를 가운데 630px 안에(카카오 일부 화면은 정사각으로 자름) 두고 양옆에 살구꽃을 놓았습니다. 크기는 앞선 레포 썸네일처럼 제목을 크게(112px, 글자 영역이 세로 74%) 둡니다. 문구가 바뀌면 HTML을 고쳐 다시 캡처합니다. 카카오는 OG 이미지를 URL 단위로 캐싱하므로, 공유한 뒤 같은 경로의 파일만 바꾸면 옛 이미지가 나갈 수 있습니다 — [공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 캐시를 초기화하거나 파일명을 바꾸세요.
 - ✅ 배포 주소에서 지도 로드 확인 (2026-10-24).
 
 ### 사용자 집계
