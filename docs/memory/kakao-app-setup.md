@@ -5,10 +5,12 @@ metadata:
   type: project
 ---
 
-| 용도 | 앱 | 키 | 도메인 등록 | 상태 (2026-10-24) |
+| 용도 | 앱 | 키 | 도메인 등록 | 상태 |
 |---|---|---|---|---|
-| 지도 | `2026_hanaro_family_festival` | 그 앱에서 새로 발급한 플랫폼 키 → `VITE_KAKAO_MAP_KEY` | 그 키의 JavaScript SDK 도메인 | Vercel Production·Preview 등록. `localhost:5173`(10-23)·배포 주소(10-24)에서 지도 로드 확인 |
-| 공유 | `2026_ordination_of_deaconesses` (사용자가 생성) | 그 앱의 JavaScript 키 → `VITE_KAKAO_JS_KEY` | [앱] → 제품 링크 관리 → `https://2026ordinationofdeaconesses.vercel.app/` | 도메인 등록 완료. **키 미수령** |
+| 지도 | `2026_hanaro_family_festival` | 그 앱에서 새로 발급한 플랫폼 키 → `VITE_KAKAO_MAP_KEY` | 그 키의 JavaScript SDK 도메인 | (2026-10-24) Vercel Production·Preview 등록. `localhost:5173`(10-23)·배포 주소(10-24)에서 지도 로드 확인 |
+| 공유 | `2026_ordination_of_deaconesses` (사용자가 생성) | 그 앱의 JavaScript 키 → `VITE_KAKAO_JS_KEY` | [앱] → 제품 링크 관리 → `https://2026ordinationofdeaconesses.vercel.app/` | (2026-10-25) 키 수령 → Vercel Production·Preview에 Config로 등록, `FE/.env.local`에도. 제품 링크 관리에는 배포 주소만 있어 **localhost에서는 4019** |
+
+키가 없을 때도 공유는 됐습니다(네이티브 공유 시트 → 카카오톡). 사용자가 「실배포에서 잘 동작하는데 왜 필요하냐」고 물었고, 차이가 「버튼에서 바로 카카오톡 대화방 선택(한 단계 적음) · 공유 시트가 없는 브라우저에서도 동작」뿐이라고 설명하자 **키를 넣기로 했습니다**(2026-10-25). 키는 선택 사항이라는 점을 과제 목록에 적을 때 분명히 합니다.
 
 **Why (키가 둘인 이유):** 사용자가 새 앱에서 카카오맵을 켜려 하자, 가족 한마당 앱이 이미 무료 쿼터를 받고 있어 또 켜면 요금이 발생한다는 안내를 받았습니다. 그래서 지도는 기존 앱에서 키를 새로 발급했고, 공유는 새 앱으로 합니다. 이전 키(`aa54…`)도 localhost에서는 동작했지만 사용자가 새 키를 지정했습니다.
 

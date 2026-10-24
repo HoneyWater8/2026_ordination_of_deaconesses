@@ -29,7 +29,7 @@
 | 20주년 기념 영상 | ✅ 교회 YouTube 채널 영상 임베드 (갤러리 사진 아래) |
 | 로고 | ✅ 가족 한마당 레포의 하나로교회 로고 — 흰 배경 제거 (2026-10-24) |
 | 공유 썸네일 · 탭 아이콘 | ✅ 1200×630 썸네일(로고·제목·일시·살구꽃) / ✅ 탭 아이콘은 첫 화면의 꽃(살구꽃) |
-| 카카오톡 공유 | ⏳ 공유 앱 JavaScript 키 미수령 — 그 전엔 네이티브 공유로 폴백 |
+| 카카오톡 공유 | ✅ 공유 앱 JavaScript 키 등록 (2026-10-25) — 버튼에서 바로 카카오톡 대화방 선택 |
 | 사용자 집계 | ✅ Vercel Web Analytics 활성화 / ⏳ GA4 측정 ID 미수령 |
 | 성경 구절 원문 대조 | ⏳ 개역개정 대조 필요 |
 
@@ -207,7 +207,7 @@ npx vercel link --yes --project 2026_ordination_of_deaconesses --team su-heon-ch
 | 변수 | 용도 | 등록 | 없을 때 |
 |---|---|---|---|
 | `VITE_KAKAO_MAP_KEY` | 카카오 지도 (06) | ✅ Production·Preview | 지도 자리 placeholder. 길찾기 버튼은 동작 |
-| `VITE_KAKAO_JS_KEY` | 카카오톡 공유 | ⏳ 키 미수령 | `navigator.share`(네이티브 공유)로 폴백 |
+| `VITE_KAKAO_JS_KEY` | 카카오톡 공유 | ✅ Production·Preview (2026-10-25) | `navigator.share`(네이티브 공유)로 폴백 |
 
 > **카카오 키가 두 개인 이유** — 카카오맵 무료 쿼터가 `2026_hanaro_family_festival` 앱에 있어, 새 앱에서 지도를 켜면 요금이 발생합니다. 그래서 지도는 그 앱에서 새로 발급한 플랫폼 키(JavaScript 키)를, 공유는 이 프로젝트용 `2026_ordination_of_deaconesses` 앱의 키를 씁니다.
 >
@@ -345,7 +345,7 @@ Claude Design 핸드오프 번들 중 이번 프로젝트 자료만 옮겼습니
 - [x] ~~예배 순서~~ — 2026-10-24 담당 전도사 요청으로 섹션 제외
 - [ ] 성경 구절 8개 개역개정 원문 대조 · 「?」 해설글 담당 전도사 검토
 - [x] ~~공유 썸네일~~ — 2026-10-24 1200×630 (로고·제목·일시·살구꽃)
-- [ ] 카카오 공유 앱 JavaScript 키 → `VITE_KAKAO_JS_KEY` (Vercel Production·Preview)
+- [x] ~~카카오 공유 앱 JavaScript 키~~ — 2026-10-25 `VITE_KAKAO_JS_KEY` (Vercel Production·Preview)
 - [ ] GA4 측정 ID → `index.html` 표준 스니펫
 - [x] ~~첫 배포 후 프로덕션 별칭 · 배포 주소에서 지도~~ — 2026-10-24 확인
 - [ ] 공유 키·썸네일을 넣은 뒤 카카오톡 공유 카드 확인 · 아이폰/카카오 인앱 실기기 확인
