@@ -11,7 +11,7 @@
 | `FE/` | Vite 8 + React 19 + TS 6. 런타임 의존성 3개(`react`/`react-dom`/`@vercel/analytics`). **서버·API 없음** |
 | `FE-legacy/` | Claude Design 핸드오프 원본(이번 프로젝트분만). **구현 기준 스펙은 `FE-legacy/README.md`**, 채택안은 `final/` |
 | `docs/` | 요구사항 · 작업로그 · 메모리 |
-| `scripts/` | 부분 폰트 · 사진 변환 (Python) |
+| `scripts/` | 부분 폰트 · 사진 변환 · 로고 배경 제거 (Python) |
 
 구조·스택·컨벤션은 앞선 두 프로젝트를 그대로 따른다 — `C:\dev\2026_amen17_graduation`(직접 기준), `C:\dev\2026_hanaro_family_festival`(지도 구현의 출처).
 

@@ -2,7 +2,7 @@
 
 | 항목 | URL |
 |---|---|
-| **Vercel 배포 (프로덕션)** | **https://2026ordinationofdeaconesses.vercel.app** *(예정 — 배포 전)* |
+| **Vercel 배포 (프로덕션)** | **https://2026ordinationofdeaconesses.vercel.app** |
 | GitHub 레포 | https://github.com/HoneyWater8/2026_ordination_of_deaconesses |
 | Vercel 프로젝트 대시보드 | https://vercel.com/su-heon-choi-s-projects/2026_ordination_of_deaconesses |
 | 참고 레포 (아멘 제자 17기 졸업) | https://github.com/HoneyWater8/2026_amen17_graduation |
@@ -29,9 +29,9 @@
 | 프로젝트명 | `2026_ordination_of_deaconesses` (`prj_uzgJdGJyB6dGoEoz0zXDwoqdFL0q`) |
 | Root Directory | `FE` |
 | Git 연동 | `HoneyWater8/2026_ordination_of_deaconesses` — `main` push 시 자동 프로덕션 배포 |
-| 최초 배포 | 아직 없음 |
+| 최초 배포 | 2026-10-24 (`main` 첫 푸시 → Git 자동 배포) |
 
-> 배포 도메인은 `FE/index.html`의 OG 태그 3곳(`og:url` · `og:image` · `twitter:image`)과 카카오 「제품 링크 관리」에 같은 값으로 들어가 있습니다. 첫 배포 후 실제 별칭과 일치하는지 확인해야 합니다.
+> ✅ 프로덕션 별칭이 `FE/index.html`의 OG 태그 3곳(`og:url` · `og:image` · `twitter:image`)·카카오 「제품 링크 관리」의 값과 일치함을 확인했습니다 (2026-10-24).
 
 ## 카카오
 

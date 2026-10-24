@@ -5,6 +5,8 @@
    ───────────────────────────────────────────────────────── */
 
 import type { GalleryPhoto, OrdinationData } from './types';
+// 하나로교회 로고 — 가족 한마당 레포의 원본에서 흰 배경을 지운 것 (scripts/prepare-logo.py)
+import logoUrl from '../assets/logo.webp';
 
 /**
  * 갤러리 사진 경로 생성.
@@ -29,6 +31,7 @@ export const O: OrdinationData = {
   title: '권사 임직 감사예배',
   titleEn: 'Ordination Thanksgiving Service',
   heroTitle: { lead: '권사', accent: '임직', sub: '감사예배' },
+  logo: logoUrl,
 
   date: { y: 2026, m: 11, d: 8, dayKo: '주일', time: '오후 2시' },
 
@@ -55,22 +58,11 @@ export const O: OrdinationData = {
     '참석하여 축복해주시면 감사하겠습니다.',
   ],
 
-  // 예배 순서 — 일반적인 임직 감사예배 기준 임시안 (확정본 미수령)
-  orderTentative: true,
-  order: [
-    { part: '1부', title: '감사예배', items: [
-      ['예배의 부름', '인도자'], ['찬송', '다같이'], ['대표기도', '맡은 이'],
-      ['성경봉독', '인도자'], ['찬양', '찬양대'], ['말씀', '담임목사'],
-    ] },
-    { part: '2부', title: '임직식', items: [
-      ['임직자 소개', '인도자'], ['서약', '임직자'], ['안수기도', '담임목사'],
-      ['공포', '담임목사'], ['임직패 증정', '담임목사'], ['권면', '맡은 이'], ['축사', '맡은 이'],
-    ] },
-    { part: '3부', title: '축하와 파송', items: [
-      ['축가', '맡은 이'], ['임직자 인사', '대표'], ['광고', '인도자'],
-      ['찬송', '다같이'], ['축도', '담임목사'],
-    ] },
-  ],
+  // 예배 순서 — 아직 정해지지 않아 예배 이름과 시간만 보인다 (2026-10-24 사용자 지시).
+  // 확정되면 order에 [{ part: '1부', title: '감사예배', items: [['찬송', '다같이'], …] }, …] 형식으로 넣는다.
+  // 핸드오프의 임시안은 FE-legacy/final/ordain-data.js에 있다.
+  serviceName: '오후예배',
+  order: [],
 
   // 임직받으시는 분 66명 — 담당자가 보낸 순서 그대로. 화면에서는 가나다순으로 정렬한다.
   // 사진 파일 번호(NN)는 이 순서를 따르므로, 사람을 추가할 때는 맨 뒤에 붙인다.

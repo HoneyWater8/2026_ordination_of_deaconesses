@@ -11,8 +11,8 @@ metadata:
 |---|---|
 | 팀 | `su-heon-choi-s-projects` / `team_i5Fp7jSWD7stWHUbGSzKpoSA` (앞선 두 레포와 같은 팀) |
 | 프로젝트 | `2026_ordination_of_deaconesses` / `prj_uzgJdGJyB6dGoEoz0zXDwoqdFL0q` |
-| 예정 도메인 | https://2026ordinationofdeaconesses.vercel.app — 2026-10-23 확인 시 미사용(`DEPLOYMENT_NOT_FOUND`) |
-| 배포 | **0건** (2026-10-23 기준) |
+| 프로덕션 도메인 | https://2026ordinationofdeaconesses.vercel.app — OG 하드코딩·카카오 제품 링크 관리와 일치 |
+| 첫 배포 | 2026-10-24 — `main` 첫 푸시(커밋 `7f09c32`) → Git 자동 배포, 빌드 13초. 보호 없이 공개 |
 
 **2026-10-23에 한 것** — 사용자가 이름을 지정하고 CLI 로그인을 마친 뒤:
 `vercel project add` → `vercel link` → `vercel api PATCH`로 `rootDirectory: FE`·`framework: vite` → `VITE_KAKAO_MAP_KEY` 등록 → `vercel project web-analytics enable` → `vercel git connect`. 졸업 프로젝트 설정을 API로 읽어 대조했고 Root Directory·프레임워크·Node 24.x·배포 보호(`all_except_custom_domains`)·Web Analytics·GitHub `main` 연결이 같습니다. 졸업 때 사용자가 대시보드에서 직접 했던 Git 연동·Root Directory를 이번엔 CLI로 처리했습니다.
@@ -21,8 +21,8 @@ metadata:
 
 **How to apply:**
 
-- 배포는 [[ask-before-commit-push]]에 따른 `main` 푸시로만. 첫 푸시가 곧 첫 프로덕션 배포입니다.
-- 첫 배포 후 확인: 프로덕션 별칭이 예정 도메인과 같은지(다르면 `FE/index.html` OG 3곳·카카오 제품 링크 관리 수정), 배포 주소에서 지도([[kakao-app-setup]]), 썸네일 응답.
+- 배포는 [[ask-before-commit-push]]에 따른 `main` 푸시로만. 푸시 후 `vercel ls`로 Ready를 확인하고 실제 도메인에서 확인합니다.
+- `vercel.json`의 1시간 캐시 헤더는 404 응답에도 붙습니다. 썸네일처럼 아직 없는 고정 경로에 파일을 새로 넣으면, 먼저 404를 받은 브라우저는 최대 1시간 옛 응답을 쓸 수 있습니다.
 - Windows Git Bash에서 `vercel api /v9/...`를 쓰면 경로가 Windows 경로로 바뀌어 실패합니다 → `MSYS_NO_PATHCONV=1`을 붙입니다.
 - `vercel link`는 `FE/.gitignore`를 오염시키고 `.env.local`에 `VERCEL_OIDC_TOKEN`을 추가합니다. 토큰은 출력·커밋하지 않습니다.
 - 운영 기간(언제 내릴지)은 아직 정해지지 않았습니다. 졸업은 상시 공개·최소 1년 유지였지만 이 프로젝트에 그대로 적용하지 않습니다.

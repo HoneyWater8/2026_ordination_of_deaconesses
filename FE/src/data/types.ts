@@ -68,13 +68,14 @@ export type OrdinationData = {
   titleEn: string;
   /** 첫 화면 큰 제목 — 「권사 [임직]」 + 「감사예배」. accent만 강조색 */
   heroTitle: { lead: string; accent: string; sub: string };
-  /** 로고 이미지 경로. 없으면 LOGO 자리 표시 */
+  /** 로고 이미지 경로 (scripts/prepare-logo.py 결과를 import). 없으면 LOGO 자리 표시 */
   logo?: string;
   date: { y: number; m: number; d: number; dayKo: string; time: string };
   place: Place;
   invite: string[];
-  /** 예배 순서가 확정되기 전에는 제목 옆에 「임시」 배지를 단다 */
-  orderTentative: boolean;
+  /** 예배 이름 (예: "오후예배") — 순서가 확정되기 전에는 이 이름과 시간만 보인다 */
+  serviceName: string;
+  /** 확정된 예배 순서. 비어 있으면 serviceName · date.time 한 줄만 표시한다 */
   order: OrderPart[];
   /** 담당자가 전달한 원문 순서. 화면에서는 가나다순으로 정렬한다 */
   ordainees: string[];

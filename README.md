@@ -4,7 +4,7 @@
 
 - ⛪ **일시** — **2026.11.08 (주) 오후 2시**
 - 📍 **장소** — 김포 하나로교회 **B2 다윗성전** (경기 김포시 김포한강2로 167)
-- 🌐 **배포** — https://2026ordinationofdeaconesses.vercel.app *(예정 · 아직 배포 전)*
+- 🌐 **배포** — https://2026ordinationofdeaconesses.vercel.app *(2026-10-24 첫 프로덕션 배포)*
 
 섹션마다 **성경 속 꽃**이 피어나는 세로 스크롤 단일 페이지. 꽃 캡션의 「?」를 누르면 그 꽃이 나오는 말씀과 해설이 올라온다. 카카오톡으로 링크를 공유해 열람하는 것이 목적이며, **모바일 세로 화면이 기본 환경**입니다.
 
@@ -14,21 +14,21 @@
 
 ## 현재 상태
 
-**디자인 구현·지도·20주년 영상·Vercel 프로젝트 구성 완료. 로고·사진·썸네일은 자료 수령 대기.**
+**디자인 구현·지도·20주년 영상·로고·탭 아이콘 완료, 2026-10-24 첫 배포. 사진·썸네일은 자료 수령 대기.**
 
 | 항목 | 상태 |
 |---|---|
 | 9개 섹션 레이아웃 · 꽃 연출 | ✅ 구현 (시안 B · 성경 속 꽃) |
 | 말씀 해설 시트 (「?」) | ✅ 구현 |
 | 예배 일시 · 달력 · D-day | ✅ 2026-11-08 (주) 오후 2시 |
-| 예배 순서 | ⏳ **임시안** (「임시」 배지) — 확정본 미수령 |
+| 예배 순서 | ⏳ 미정 — 「오후예배 · 오후 2시」만 표시 (2026-10-24) |
 | 임직자 명단 | ✅ **66명** (담당자 원문, 화면은 가나다순) |
 | 임직자 사진 | ⏳ 임직 예정자 카톡방에서 수령 예정 — 그 전엔 성(첫 글자) 자리 |
 | 오시는 길 · 카카오 지도 | ✅ 지도 + 카카오맵·네이버지도·T맵 길찾기 + 주소 복사 |
 | 갤러리 사진 8장 | ⏳ 파일 미수령 — 번호 자리 |
 | 20주년 기념 영상 | ✅ 교회 YouTube 채널 영상 임베드 (갤러리 사진 아래) |
-| 로고 | ⏳ 미수령 — LOGO 자리 |
-| 공유 썸네일 · 탭 아이콘 | ⏳ 썸네일은 사용자 제작 예정 / 탭 아이콘 미정 |
+| 로고 | ✅ 가족 한마당 레포의 하나로교회 로고 — 흰 배경 제거 (2026-10-24) |
+| 공유 썸네일 · 탭 아이콘 | ⏳ 썸네일은 사용자 제작 예정 / ✅ 탭 아이콘은 첫 화면의 꽃(살구꽃) |
 | 카카오톡 공유 | ⏳ 공유 앱 JavaScript 키 미수령 — 그 전엔 네이티브 공유로 폴백 |
 | 사용자 집계 | ✅ Vercel Web Analytics 활성화 / ⏳ GA4 측정 ID 미수령 |
 | 성경 구절 원문 대조 | ⏳ 개역개정 대조 필요 |
@@ -73,7 +73,7 @@
 | 01 | **Hero** | 로고 · 교회명 · `Ordination Thanksgiving Service` · 「권사 *임직* / 감사예배」 · 꽃 구분선 · 일시·장소 · 살구꽃 캡션 · 모서리 살구꽃 가지와 흩날리는 꽃잎 · SCROLL |
 | 02 | **모시는 글** | 담당자 초대글 원문 + 「하나로교회」 |
 | 03 | **예배 일시** | 날짜·시간 + D-day 배지 + 11월 달력(8일 강조, 일요일 「주」) |
-| 04 | **예배 순서** | 1부 감사예배 · 2부 임직식 · 3부 축하와 파송 (점선 리더). 「임시」 배지 |
+| 04 | **예배 순서** | 지금은 「오후예배 · 오후 2시」 한 줄. 순서가 확정되면 1·2·3부 · 항목 ─ 맡은 이 (점선 리더) |
 | 05 | **임직받으시는 분** | 「66명의 권사님을 세웁니다」 + 4열 원형 사진 그리드(가나다순). 동명이인 접미사(`김영남B`)는 작게. 탭해도 확대하지 않음 |
 | 06 | **오시는 길** | 카카오 지도 + 장소 카드(주소 복사·지하철·주차) + 카카오맵·네이버지도·T맵 |
 | 07 | **갤러리** | 2열 사진 8칸(넓게·2·2·넓게·2) — 탭하면 확대 보기 + **20주년 기념 영상**(YouTube 표준 플레이어, 지연 로딩) |
@@ -95,7 +95,7 @@
 2026_ordination_of_deaconesses/
 ├── FE/                                 # 프론트엔드 (Vite + React + Vercel)
 │   ├── public/
-│   │   ├── icons/                      # 지도 앱·카카오톡 아이콘 · (예정) thumbnail.png
+│   │   ├── icons/                      # 탭 아이콘(살구꽃) · 지도 앱·카카오톡 아이콘 · (예정) thumbnail.png
 │   │   ├── ordainees/                  # 임직자 사진 NN.webp (NN = 명단 원문 순서)
 │   │   ├── gallery/                    # 갤러리 사진 — thumb(800w) · full(1280w) 2벌
 │   │   └── licenses/fonts/             # 부분 폰트 원본·라이선스
@@ -104,7 +104,7 @@
 │   │   ├── main.tsx
 │   │   ├── fonts.css                   # 부분 폰트 @font-face (Ordain Batang/Sans/Garamond)
 │   │   ├── index.css                   # 글로벌 리셋 + @keyframes(od-*) + .od-anim
-│   │   ├── assets/fonts/               # WOFF2 7개 + manifest.json (빌드 시 해시 경로)
+│   │   ├── assets/                     # WOFF2 7개 + manifest.json · 로고 logo.webp (빌드 시 해시 경로)
 │   │   ├── theme/tokens.ts             # BL(색), FF(폰트), MOTION, LAYOUT
 │   │   ├── data/
 │   │   │   ├── types.ts                # OrdinationData · FlowerKind · SectionLabel
@@ -143,8 +143,11 @@
 │   ├── worklog/                        # 작업로그 — 무엇을 왜 그렇게 했는지
 │   └── memory/                         # 세션 간 유지되는 메모리
 │
+├── assets/logo/hanaro.png              # 로고 원본 (가족 한마당 레포, 흰 배경)
+│
 ├── scripts/
 │   ├── prepare-fonts.py                # 고정 버전 원본 → 부분 폰트 WOFF2
+│   ├── prepare-logo.py                 # 로고 흰 배경 제거 → 무손실 WebP
 │   └── resize-photos.py                # 원본 사진 → 갤러리 2벌 · 임직자 정사각
 │
 └── CLAUDE.md                           # 세션 시작 시 자동 로드되는 프로젝트 규약
@@ -176,7 +179,7 @@ npm run lint
 | Node | 24.x |
 | Git | `HoneyWater8/2026_ordination_of_deaconesses` — `main` 연결 |
 
-2026-10-23 CLI로 프로젝트를 만들고 졸업 프로젝트와 같은 설정(Root Directory · 프레임워크 · Node · 배포 보호 · Web Analytics · Git 연결)으로 맞췄습니다. **아직 배포는 0건입니다.**
+2026-10-23 CLI로 프로젝트를 만들고 졸업 프로젝트와 같은 설정(Root Directory · 프레임워크 · Node · 배포 보호 · Web Analytics · Git 연결)으로 맞췄습니다. 2026-10-24 `main` 첫 푸시로 첫 프로덕션 배포 — 프로덕션 별칭이 하드코딩한 도메인과 일치하고 보호 없이 공개됩니다.
 
 ### 배포 — Git 자동 배포
 
@@ -207,14 +210,14 @@ npx vercel link --yes --project 2026_ordination_of_deaconesses --team su-heon-ch
 
 > **카카오 키가 두 개인 이유** — 카카오맵 무료 쿼터가 `2026_hanaro_family_festival` 앱에 있어, 새 앱에서 지도를 켜면 요금이 발생합니다. 그래서 지도는 그 앱에서 새로 발급한 플랫폼 키(JavaScript 키)를, 공유는 이 프로젝트용 `2026_ordination_of_deaconesses` 앱의 키를 씁니다.
 >
-> - 지도 — 그 키의 **JavaScript SDK 도메인**에 배포 주소와 `http://localhost:5173`이 있어야 합니다. 2026-10-23 localhost에서 지도 로드를 확인했습니다. 배포 주소는 첫 배포 후 확인합니다.
+> - 지도 — 그 키의 **JavaScript SDK 도메인**에 배포 주소와 `http://localhost:5173`이 있어야 합니다. localhost(2026-10-23)와 배포 주소(2026-10-24) 모두에서 지도 로드를 확인했습니다.
 > - 공유 — **[앱] → 제품 링크 관리 → 사이트 도메인**에 `https://2026ordinationofdeaconesses.vercel.app` 등록 완료. 「플랫폼 → Web」이 아닙니다 — 빠지면 `4019` (가족 한마당·졸업 두 프로젝트가 연속으로 겪은 함정).
 
-### 배포 후 반드시 확인할 것
+### 배포 후 확인할 것
 
-- `FE/index.html`의 OG 태그에 도메인이 **하드코딩**되어 있습니다 (`og:url` · `og:image` · `twitter:image`). 실제 프로덕션 별칭이 `https://2026ordinationofdeaconesses.vercel.app`인지 확인하세요.
+- ✅ **도메인 일치** — 프로덕션 별칭이 `https://2026ordinationofdeaconesses.vercel.app`로 `FE/index.html`의 OG 태그(`og:url` · `og:image` · `twitter:image`)와 같습니다 (2026-10-24). 도메인을 바꾸면 세 곳과 카카오 제품 링크 관리를 함께 바꾸세요.
 - **`public/icons/thumbnail.png`(1200×630)가 있어야** 카카오톡 공유 카드에 이미지가 붙습니다. 카카오는 OG 이미지를 URL 단위로 캐싱하므로, 공유한 뒤 같은 경로의 파일만 바꾸면 옛 이미지가 나갈 수 있습니다 — [공유 디버거](https://developers.kakao.com/tool/debugger/sharing)에서 캐시를 초기화하거나 파일명을 바꾸세요.
-- 배포 주소에서 지도가 뜨는지 (지도 키의 SDK 도메인 등록).
+- ✅ 배포 주소에서 지도 로드 확인 (2026-10-24).
 
 ### 사용자 집계
 
@@ -244,7 +247,7 @@ npx vercel link --yes --project 2026_ordination_of_deaconesses --team su-heon-ch
 
 모든 콘텐츠는 [`FE/src/data/ordination.ts`](./FE/src/data/ordination.ts) 한 파일에 있습니다.
 
-**예배 순서** — `order` 배열을 확정본으로 바꾸고 `orderTentative: false`로 「임시」 배지를 뗍니다.
+**예배 순서** — 정해지기 전에는 `serviceName`(오후예배)과 `date.time`(오후 2시) 한 줄만 보입니다. 확정되면 `order`에 `[{ part: '1부', title: '감사예배', items: [['찬송', '다같이'], …] }, …]` 형식으로 넣으면 시안의 1·2·3부 화면으로 바뀝니다. 핸드오프 임시안은 `FE-legacy/final/ordain-data.js`에 있습니다.
 
 **임직자 명단** — `ordainees`는 담당자가 보낸 **원문 순서 그대로** 둡니다. 화면에서 가나다순으로 정렬하며, 사진 번호가 이 순서를 따르므로 사람을 추가할 때는 **맨 뒤에** 붙입니다. `김영남B`의 `B`는 동명이인 구분자라 원문 표기를 유지합니다.
 
@@ -267,7 +270,9 @@ python scripts/resize-photos.py --source assets/photo-originals/gallery --slug g
 
 **20주년 기념 영상** — 교회 YouTube 채널의 영상을 임베드합니다. 바꾸려면 `gallery.video.youtubeId`(`youtu.be/<ID>`의 ID)만 고칩니다. 업로더가 외부 임베드를 막은 영상은 재생되지 않으니 `https://www.youtube.com/oembed?url=<영상 주소>&format=json`이 200을 주는지 먼저 확인합니다.
 
-**로고** — 파일을 `FE/public/`에 넣고 `logo: '/logo.png'`처럼 지정하면 첫 화면·마지막 화면의 LOGO 자리가 바뀝니다.
+**로고** — 원본은 [2026 하나로 가족 한마당](https://github.com/HoneyWater8/2026_hanaro_family_festival) 레포의 `FE/public/icons/hanaro.png`(흰 배경)이며 `assets/logo/hanaro.png`에 두었습니다. `python scripts/prepare-logo.py`가 흰 배경을 투명하게 바꿔 `FE/src/assets/logo.webp`(240px, 무손실)를 만듭니다 — 붉은 띠 안의 흰 글자는 그대로 두고 나머지 흰색만 「흰색 → 투명」으로 바꾸므로 띠 글자에 구멍이 뚫리지 않고 획 가장자리에 흰 테두리가 남지 않습니다.
+
+**탭 아이콘** — 첫 화면의 꽃(살구꽃) 그림을 1024px로 렌더링해 내용만 잘라 정사각 여백 8%로 가운데 두고 `favicon-32`·`favicon-180`(투명)과 `apple-touch-icon`(배경색 `#FFF8F4` — iOS는 투명을 검게 채움)을 만들었습니다 (졸업 레포 왁스 씰 아이콘과 같은 방식).
 
 **성경 구절·해설** — `flowers.info`. 섹션과 꽃의 짝은 `flowers.bySection`.
 
@@ -332,16 +337,17 @@ Claude Design 핸드오프 번들 중 이번 프로젝트 자료만 옮겼습니
 
 ## 남은 과제
 
-- [ ] 로고 수령 → `logo` 지정 (탭 아이콘도 함께 정하기)
+- [x] ~~로고~~ — 2026-10-24 가족 한마당 레포 로고, 흰 배경 제거 / 탭 아이콘은 살구꽃
 - [ ] 임직자 사진 66장 수령 → `resize-photos.py --ordainees` → `ordaineePhotos: true`
 - [ ] 갤러리 사진 8장 파일 수령 → `resize-photos.py --slug gallery`
 - [x] ~~20주년 기념 영상~~ — 2026-10-24 교회 YouTube 영상 임베드
-- [ ] 예배 순서 확정본 → `order` 교체 · `orderTentative: false`
+- [ ] 예배 순서 확정본 → `order` (그 전까지 「오후예배 · 오후 2시」만)
 - [ ] 성경 구절 9개 개역개정 원문 대조
 - [ ] 공유 썸네일 `public/icons/thumbnail.png` (1200×630) — 사용자 제작
 - [ ] 카카오 공유 앱 JavaScript 키 → `VITE_KAKAO_JS_KEY` (Vercel Production·Preview)
 - [ ] GA4 측정 ID → `index.html` 표준 스니펫
-- [ ] 첫 배포 후: 프로덕션 별칭 · 배포 주소에서 지도 · 카카오 공유 확인
+- [x] ~~첫 배포 후 프로덕션 별칭 · 배포 주소에서 지도~~ — 2026-10-24 확인
+- [ ] 공유 키·썸네일을 넣은 뒤 카카오톡 공유 카드 확인 · 아이폰/카카오 인앱 실기기 확인
 
 ---
 

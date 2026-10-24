@@ -7,12 +7,10 @@ type SectionHeadProps = {
   ko: string;
   /** 라틴 전용 — Garamond로 조판되므로 한글을 섞지 말 것 */
   en: string;
-  /** 제목 옆 작은 배지 (예: 「임시」) */
-  badge?: string;
 };
 
 /** 섹션 헤더 — 영문 라벨(이탤릭) + 한글 제목 + 섹션 꽃 구분선 + 꽃 캡션. */
-export function SectionHead({ ko, en, badge }: SectionHeadProps) {
+export function SectionHead({ ko, en }: SectionHeadProps) {
   const kind = useSectionFlower();
   return (
     <Reveal>
@@ -26,13 +24,6 @@ export function SectionHead({ ko, en, badge }: SectionHeadProps) {
           fontFamily: FF.display, fontWeight: 700, fontSize: 27, letterSpacing: -0.5, color: BL.text,
         }}>
           {ko}
-          {badge && (
-            <span style={{
-              fontFamily: FF.body, fontSize: 11, fontWeight: 700, padding: '4px 7px', lineHeight: 1,
-              whiteSpace: 'nowrap', flexShrink: 0, letterSpacing: 0,
-              border: `1px solid ${BL.label}`, color: BL.label, borderRadius: 999,
-            }}>{badge}</span>
-          )}
         </div>
         {kind && <FlowerOrn kind={kind} w={110} caption />}
       </div>

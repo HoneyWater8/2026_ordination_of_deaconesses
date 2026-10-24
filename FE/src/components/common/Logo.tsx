@@ -3,7 +3,7 @@ import { O } from '../../data/ordination';
 
 type LogoProps = { size?: number };
 
-/** 교회 로고. 파일을 받기 전에는 점선 원 안의 LOGO 자리로 표시한다. */
+/** 교회 로고 (data의 logo). 경로가 없으면 점선 원 안의 LOGO 자리로 표시한다. */
 export function Logo({ size = 60 }: LogoProps) {
   if (O.logo) {
     return (
