@@ -2,9 +2,9 @@
    권사 임직 감사예배 초대장 데이터 타입 정의
    ───────────────────────────────────────────────────────── */
 
-/** 성경 속 꽃 9종 — 그림은 components/common/Flower.tsx */
+/** 성경 속 꽃 8종 — 그림은 components/common/Flower.tsx */
 export type FlowerKind =
-  | 'almond' | 'narcissus' | 'lily' | 'hyssop' | 'pomegranate'
+  | 'almond' | 'narcissus' | 'lily' | 'pomegranate'
   | 'olive' | 'grape' | 'anemone' | 'palm';
 
 export type FlowerInfo = {
@@ -22,17 +22,14 @@ export type FlowerInfo = {
   type: 'head' | 'sprig';
 };
 
-/** 섹션 라벨 — GA section_view와 섹션별 꽃 매핑의 키 */
+/**
+ * 섹션 라벨 — GA section_view와 섹션별 꽃 매핑의 키.
+ * 04(예배 순서)는 2026-10-24 섹션을 빼며 비었다. 번호를 당기지 않는다 — 라벨이 배경 꽃의
+ * 좌우·기울기를 정하는 시드라, 당기면 뒤 섹션들의 꽃 배치가 바뀐다.
+ */
 export type SectionLabel =
-  | '01 Hero' | '02 Invite' | '03 Date' | '04 Order' | '05 Ordainees'
+  | '01 Hero' | '02 Invite' | '03 Date' | '05 Ordainees'
   | '06 Location' | '07 Gallery' | '08 Notice' | '09 Footer';
-
-export type OrderPart = {
-  part: string;
-  title: string;
-  /** [순서, 맡은 이] */
-  items: [string, string][];
-};
 
 export type Place = {
   name: string;
@@ -73,10 +70,6 @@ export type OrdinationData = {
   date: { y: number; m: number; d: number; dayKo: string; time: string };
   place: Place;
   invite: string[];
-  /** 예배 이름 (예: "오후예배") — 순서가 확정되기 전에는 이 이름과 시간만 보인다 */
-  serviceName: string;
-  /** 확정된 예배 순서. 비어 있으면 serviceName · date.time 한 줄만 표시한다 */
-  order: OrderPart[];
   /** 담당자가 전달한 원문 순서. 화면에서는 가나다순으로 정렬한다 */
   ordainees: string[];
   /** 임직자 사진이 준비되면 true — public/ordainees/NN.webp (NN = 원문 순서) */

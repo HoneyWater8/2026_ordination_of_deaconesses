@@ -23,8 +23,10 @@ export function Footer() {
   useSectionView(ref, '09 Footer');
 
   return (
+    // 배경은 바로 앞 섹션(08 안내, bg)과 엇갈리게 bg2. 예배 순서 섹션을 뺀 뒤(2026-10-24) 본문
+    // 섹션이 짝수가 되어, bg로 두면 안내와 같은 색이 이어져 경계 없는 긴 빈칸처럼 보였다.
     <footer ref={ref} data-screen-label="09 Footer" style={{
-      background: BL.bg, padding: '56px 22px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+      background: BL.bg2, padding: '56px 22px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden',
       minHeight: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center',
     }}>
       <div style={{ flex: 1 }} />

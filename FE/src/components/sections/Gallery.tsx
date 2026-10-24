@@ -20,7 +20,7 @@ export function Gallery() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <Section label="07 Gallery">
+    <Section alt label="07 Gallery">
       <SectionHead en="Gallery" ko="갤러리" />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,minmax(0,1fr))', gap: 8 }}>
         {Array.from({ length: slots }, (_, i) => {

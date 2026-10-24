@@ -1,6 +1,7 @@
 /* ─────────────────────────────────────────────────────────
-   성경 속 꽃 9종 · 코드로 그린 SVG (viewBox 100×100)
+   성경 속 꽃 8종 · 코드로 그린 SVG (viewBox 100×100)
    FE-legacy/final/ordain-flowers-bible.jsx의 도형·색을 그대로 옮겼다.
+   예배 순서 섹션의 우슬초는 2026-10-24 섹션과 함께 뺐다 (원본은 위 파일에 있다).
    이름·구절·해설은 그림이 아니라 콘텐츠라 data/ordination.ts에 있다.
    ───────────────────────────────────────────────────────── */
 
@@ -9,7 +10,6 @@ import type { ReactNode } from 'react';
 import type { FlowerKind } from '../../data/types';
 
 type Pt = [number, number];
-type Quad = { p0: Pt; c: Pt; p1: Pt };
 type Cubic = [Pt, Pt, Pt, Pt];
 
 /**
@@ -30,12 +30,6 @@ function Svg({ size, children }: { size: number; children: ReactNode }) {
 }
 
 // ── 곡선 헬퍼 — 줄기를 따라 잎·꽃을 배치할 때 위치와 접선 각도를 구한다 ──
-const qb = (s: Quad, t: number): Pt => {
-  const u = 1 - t;
-  return [u * u * s.p0[0] + 2 * u * t * s.c[0] + t * t * s.p1[0], u * u * s.p0[1] + 2 * u * t * s.c[1] + t * t * s.p1[1]];
-};
-const qt = (s: Quad, t: number): Pt =>
-  [2 * (1 - t) * (s.c[0] - s.p0[0]) + 2 * t * (s.p1[0] - s.c[0]), 2 * (1 - t) * (s.c[1] - s.p0[1]) + 2 * t * (s.p1[1] - s.c[1])];
 const cb = (P: Cubic, t: number): Pt => {
   const u = 1 - t;
   const at = (k: 0 | 1) => u * u * u * P[0][k] + 3 * u * u * t * P[1][k] + 3 * u * t * t * P[2][k] + t * t * t * P[3][k];
@@ -186,55 +180,6 @@ function Narcissus({ size }: { size: number }) {
       <circle cx="50" cy="50" r="8.6" fill="none" stroke="#E08A30" strokeWidth=".6" opacity=".7" />
       <circle cx="50" cy="50" r="5" fill="#D97C28" />
       {[0, 120, 240].map(a => <circle key={a} cx="50" cy="47.4" r="1" fill="#F4DA7A" transform={`rotate(${a} 50 50)`} />)}
-    </Svg>
-  );
-}
-
-// ── 우슬초 · 시편 51:7 ──
-// 줄기 아래쪽(t < .55)은 마주난 잎, 위쪽은 7개 꽃잎이 돌아가며 달린 이삭이다.
-const HYSSOP_STEMS: Quad[] = [
-  { p0: [48, 98], c: [40, 60], p1: [30, 14] },
-  { p0: [50, 98], c: [52, 56], p1: [56, 6] },
-  { p0: [52, 98], c: [62, 60], p1: [72, 18] },
-];
-const HYSSOP_COLORS = ['#FBF9FD', '#E7DEF3', '#CDBFE6'];
-type HyssopPart =
-  | { kind: 'leaf'; key: string; x: number; y: number; rotate: number }
-  | { kind: 'floret'; key: string; x: number; y: number; rx: number; ry: number; rotate: number; fill: string };
-const HYSSOP_PARTS: HyssopPart[][] = HYSSOP_STEMS.map((s) => {
-  const out: HyssopPart[] = [];
-  for (let i = 0; i <= 11; i++) {
-    const t = 0.15 + 0.85 * i / 11;
-    const [x, y] = qb(s, t);
-    const ang = deg(qt(s, t));
-    if (t < 0.55) {
-      for (const sd of [-1, 1]) out.push({ kind: 'leaf', key: `l${i}${sd}`, x, y, rotate: ang + 90 + sd * 55 });
-    } else {
-      const k = 1 - 0.35 * (t - 0.55) / 0.45;
-      for (let j = 0; j < 7; j++) {
-        const a = (j / 7) * Math.PI * 2 + i;
-        const fx = x + 2.4 * k * Math.cos(a), fy = y + 1.4 * k * Math.sin(a);
-        out.push({ kind: 'floret', key: `f${i}${j}`, x: fx, y: fy, rx: 1.3 * k, ry: 2.2 * k, rotate: ang + 90 + Math.cos(a) * 40, fill: HYSSOP_COLORS[(i + j) % 3] });
-      }
-    }
-  }
-  return out;
-});
-
-function Hyssop({ size }: { size: number }) {
-  return (
-    <Svg size={size}>
-      {HYSSOP_STEMS.map((s, si) => (
-        <g key={si}>
-          <path d={`M${s.p0[0]} ${s.p0[1]} Q ${s.c[0]} ${s.c[1]} ${s.p1[0]} ${s.p1[1]}`} fill="none" stroke="#8FAA8A" strokeWidth="1.2" />
-          {HYSSOP_PARTS[si].map((p) => p.kind === 'leaf'
-            ? <ellipse key={p.key} cx={p.x} cy={p.y} rx="1.1" ry="4.6" fill="#93AE8B"
-                transform={`rotate(${p.rotate} ${p.x} ${p.y}) translate(0 -4)`} />
-            : <ellipse key={p.key} cx={p.x} cy={p.y} rx={p.rx} ry={p.ry}
-                fill={p.fill} stroke="#B3A3D6" strokeWidth=".3"
-                transform={`rotate(${p.rotate} ${p.x} ${p.y})`} />)}
-        </g>
-      ))}
     </Svg>
   );
 }
@@ -421,7 +366,7 @@ function Palm({ size }: { size: number }) {
 }
 
 const FLOWERS: Record<FlowerKind, (props: { size: number }) => ReactNode> = {
-  almond: Almond, narcissus: Narcissus, lily: Lily, hyssop: Hyssop, pomegranate: Pomegranate,
+  almond: Almond, narcissus: Narcissus, lily: Lily, pomegranate: Pomegranate,
   olive: Olive, grape: Grape, anemone: Anemone, palm: Palm,
 };
 
@@ -436,7 +381,6 @@ const BITS: Record<Exclude<FlowerKind, 'grape'>, [string, string, string]> = {
   almond: ['M10 18 C 4.5 15.5, 3.5 7.5, 7 4 C 8.6 2.5, 11.4 2.5, 13 4 C 16.5 7.5, 15.5 15.5, 10 18 Z', '#F9DDE3', '#E3A9B7'],
   narcissus: ['M10 19 C 5 14, 5 6, 10 1 C 15 6, 15 14, 10 19 Z', '#FFFDF4', '#DCCFAE'],
   lily: ['M10 19 C 5 14, 5 6, 10 1 C 15 6, 15 14, 10 19 Z', '#FFFDF6', '#DDD0BF'],
-  hyssop: ['M10 17 C 7 14, 6.6 9, 10 4 C 13.4 9, 13 14, 10 17 Z', '#F1ECF8', '#B3A3D6'],
   pomegranate: ['M10 19 C 3 16, 1.5 7, 5 3.5 C 7 1.6, 13 1.6, 15 3.5 C 18.5 7, 17 16, 10 19 Z', '#EE6E58', '#C23A36'],
   olive: ['M10 19 C 12.5 13, 12.5 6, 10 1 C 7.5 6, 7.5 13, 10 19 Z', '#A7B79E', '#6F8768'],
   anemone: ['M10 19 C 3 16, 1.5 7, 5 3.5 C 7 1.6, 13 1.6, 15 3.5 C 18.5 7, 17 16, 10 19 Z', '#DE4A50', '#A82434'],

@@ -58,12 +58,6 @@ export const O: OrdinationData = {
     '참석하여 축복해주시면 감사하겠습니다.',
   ],
 
-  // 예배 순서 — 아직 정해지지 않아 예배 이름과 시간만 보인다 (2026-10-24 사용자 지시).
-  // 확정되면 order에 [{ part: '1부', title: '감사예배', items: [['찬송', '다같이'], …] }, …] 형식으로 넣는다.
-  // 핸드오프의 임시안은 FE-legacy/final/ordain-data.js에 있다.
-  serviceName: '오후예배',
-  order: [],
-
   // 임직받으시는 분 66명 — 담당자가 보낸 순서 그대로. 화면에서는 가나다순으로 정렬한다.
   // 사진 파일 번호(NN)는 이 순서를 따르므로, 사람을 추가할 때는 맨 뒤에 붙인다.
   // "김영남B"의 B는 동명이인 구분자다. 원문 표기를 그대로 쓴다.
@@ -121,11 +115,6 @@ export const O: OrdinationData = {
         verse: '사막이 백합화 같이 피어 즐거워하며',
         note: '메마른 광야가 꽃으로 뒤덮이는 회복의 약속입니다. 아무것도 자랄 수 없을 것 같은 곳에서 하나님이 새 일을 시작하십니다. 임직의 날은 하나님이 여시는 새로운 시작의 날입니다.',
       },
-      hyssop: {
-        name: '우슬초', ref: '시편 51:7', type: 'sprig',
-        verse: '우슬초로 나를 정결하게 하소서 내가 정하리이다',
-        note: '우슬초는 유월절에 문설주에 피를 바르고, 정결 예식에서 물과 피를 뿌리는 데 쓰인 식물입니다. 다윗은 죄를 회개하며 우슬초로 정결하게 해 달라고 기도했습니다. 예배의 순서 앞에서 먼저 마음을 정결히 준비합니다.',
-      },
       pomegranate: {
         name: '석류', ref: '출애굽기 28:33', type: 'sprig',
         verse: '그 옷 가장자리로 돌아가며 청색 자색 홍색 실로 석류를 수놓고',
@@ -156,7 +145,6 @@ export const O: OrdinationData = {
       '01 Hero': 'almond',
       '02 Invite': 'narcissus',
       '03 Date': 'lily',
-      '04 Order': 'hyssop',
       '05 Ordainees': 'pomegranate',
       '06 Location': 'olive',
       '07 Gallery': 'grape',

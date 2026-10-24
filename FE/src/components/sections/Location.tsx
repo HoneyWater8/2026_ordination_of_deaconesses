@@ -37,7 +37,7 @@ export function Location() {
   const loc: LocationInfo = { name: place.name, address: place.address, coords: place.coords };
 
   return (
-    <Section alt label="06 Location">
+    <Section label="06 Location">
       <SectionHead en="Location" ko="오시는 길" />
       <Reveal delay={0.06}>
         <KakaoMap

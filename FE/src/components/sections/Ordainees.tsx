@@ -52,7 +52,7 @@ function Portrait({ person }: { person: Ordainee }) {
 /** 05 임직받으시는 분 — 인원 + 4열 원형 사진 그리드(가나다순). */
 export function Ordainees() {
   return (
-    <Section label="05 Ordainees">
+    <Section alt label="05 Ordainees">
       <SectionHead en="Ordainees" ko="임직받으시는 분" />
       <Reveal delay={0.05}>
         <div style={{ textAlign: 'center', marginBottom: 26, fontFamily: FF.body, fontSize: 14, color: BL.textSoft }}>

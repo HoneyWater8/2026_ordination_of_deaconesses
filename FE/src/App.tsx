@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────
    2026 권사 임직 감사예배 · Bloom(성경 속 꽃) 초대장
-   하나로교회 · 9섹션 세로 스크롤 + 섹션마다 고유한 꽃
+   하나로교회 · 8섹션 세로 스크롤 + 섹션마다 고유한 꽃
    ───────────────────────────────────────────────────────── */
 
 import { Analytics } from '@vercel/analytics/react';
@@ -9,7 +9,6 @@ import { ShareFAB } from './components/common/ShareFAB';
 import { Hero } from './components/sections/Hero';
 import { Invite } from './components/sections/Invite';
 import { Schedule } from './components/sections/Schedule';
-import { Order } from './components/sections/Order';
 import { Ordainees } from './components/sections/Ordainees';
 import { Location } from './components/sections/Location';
 import { Gallery } from './components/sections/Gallery';
@@ -39,7 +38,6 @@ export default function App() {
         <Hero />
         <Invite />
         <Schedule />
-        <Order />
         <Ordainees />
         <Location />
         <Gallery />

@@ -8,7 +8,7 @@ import { Card } from '../common/Card';
 /** 08 안내 — 좌석 안내문 카드. */
 export function Notice() {
   return (
-    <Section alt label="08 Notice">
+    <Section label="08 Notice">
       <SectionHead en="Notice" ko="안내" />
       <Reveal delay={0.08}>
         <Card pad={24}>
