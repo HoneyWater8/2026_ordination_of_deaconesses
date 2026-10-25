@@ -38,4 +38,4 @@
 | 용도 | 앱 | 환경 변수 | 도메인 등록 위치 |
 |---|---|---|---|
 | 지도 | `2026_hanaro_family_festival` (무료 쿼터) — 2026-10-23 새 플랫폼 키 | `VITE_KAKAO_MAP_KEY` | 그 키의 JavaScript SDK 도메인 |
-| 공유 | `2026_ordination_of_deaconesses` | `VITE_KAKAO_JS_KEY` (미수령) | [앱] → 제품 링크 관리 → 사이트 도메인 (등록 완료) |
+| 공유 | `2026_ordination_of_deaconesses` | `VITE_KAKAO_JS_KEY` (2026-10-25 등록, Production·Preview) | [앱] → 제품 링크 관리 → 사이트 도메인 (등록 완료) |

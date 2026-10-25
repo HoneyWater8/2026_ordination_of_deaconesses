@@ -60,7 +60,7 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { m, d, dayKo, time } = O.date;
   useSectionView(ref, '01 Hero');
-  const playing = useInView(ref, true, '200px 0px');
+  const playing = useInView(ref, '200px 0px');
 
   return (
     <section ref={ref} data-screen-label="01 Hero" style={{

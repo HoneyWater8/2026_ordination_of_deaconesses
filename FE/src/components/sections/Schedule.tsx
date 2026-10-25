@@ -7,13 +7,19 @@ import { Reveal } from '../common/Reveal';
 import { Card } from '../common/Card';
 import { Calendar } from '../common/Calendar';
 
-/** 오늘 기준 남은 날. 예배일이 지나면 배지를 감춘다. */
+/** 한국 시간(UTC+9) — 날짜를 기기 시간대가 아니라 예배 장소 기준으로 센다 */
+const KST_OFFSET_MS = 9 * 3600000;
+
+/**
+ * 오늘 기준 남은 날. 예배일이 지나면 배지를 감춘다.
+ * 기기 시간대로 세면 해외 기기에서 하루 어긋난다(LA에서는 예배 중에 D-1) — 한국 날짜로 센다.
+ */
 function dday(): string | null {
   const { y, m, d } = O.date;
-  const target = new Date(y, m - 1, d);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const left = Math.round((target.getTime() - today.getTime()) / 86400000);
+  // 지금 시각에 9시간을 더해 UTC 필드로 읽으면 한국 날짜가 된다
+  const kst = new Date(Date.now() + KST_OFFSET_MS);
+  const today = Date.UTC(kst.getUTCFullYear(), kst.getUTCMonth(), kst.getUTCDate());
+  const left = Math.round((Date.UTC(y, m - 1, d) - today) / 86400000);
   return left > 0 ? `D-${left}` : left === 0 ? 'D-DAY' : null;
 }
 

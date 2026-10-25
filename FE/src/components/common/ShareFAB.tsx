@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from 'react';
 import { BL, FF } from '../../theme/tokens';
 import { shareToKakao, hasKakaoKey } from '../../utils/kakaoShare';
-import { canonicalUrl, copyLink, nativeShare, canNativeShare } from '../../utils/share';
+import { canonicalUrl, copyText, nativeShare, canNativeShare } from '../../utils/share';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { track } from '../../utils/analytics';
 import { O } from '../../data/ordination';
@@ -17,7 +17,8 @@ const itemStyle: CSSProperties = {
   background: 'transparent', border: 'none', borderRadius: 0,
   cursor: 'pointer',
   fontFamily: FF.body, fontSize: 14, fontWeight: 700,
-  color: BL.text, textAlign: 'left', outline: 'none',
+  // outline을 지우지 않는다 — 키보드로 옮겨 다닐 때 초점 표시가 남아야 한다 (터치·클릭에는 브라우저가 그리지 않음)
+  color: BL.text, textAlign: 'left',
 };
 
 const iconSlotStyle: CSSProperties = {
@@ -42,6 +43,9 @@ export const ShareFAB = memo(function ShareFAB() {
   const [iconFailed, setIconFailed] = useState(false);
   const dragStartYRef = useRef<number | null>(null);
   const toastTimerRef = useRef<number | null>(null);
+  const closeTimerRef = useRef<number | null>(null);
+  const fabRef = useRef<HTMLButtonElement>(null);
+  const firstItemRef = useRef<HTMLButtonElement>(null);
   const reduced = usePrefersReducedMotion();
 
   const showToast = useCallback((msg: string) => {
@@ -52,9 +56,15 @@ export const ShareFAB = memo(function ShareFAB() {
 
   useEffect(() => () => {
     if (toastTimerRef.current !== null) window.clearTimeout(toastTimerRef.current);
+    if (closeTimerRef.current !== null) window.clearTimeout(closeTimerRef.current);
   }, []);
 
   const openSheet = useCallback(() => {
+    // 닫히는 중(320ms)에 다시 열면 남은 닫힘 타이머가 방금 연 시트를 언마운트했다 — 먼저 지운다
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
     track('share_open');
     setDragY(0);
     setMounted(true);
@@ -66,11 +76,20 @@ export const ShareFAB = memo(function ShareFAB() {
 
   const closeSheet = useCallback(() => {
     setVisible(false);
-    window.setTimeout(() => {
+    // 초점은 닫힘 애니메이션(320ms)을 기다리지 않고 바로 FAB로 — 기다리면 그사이 Enter가 시트 항목을 누른다
+    fabRef.current?.focus({ preventScroll: true });
+    if (closeTimerRef.current !== null) window.clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = window.setTimeout(() => {
+      closeTimerRef.current = null;
       setMounted(false);
       setDragY(0);
     }, reduced ? 0 : SHEET_TRANSITION_MS);
   }, [reduced]);
+
+  // 시트가 열리면 첫 항목으로 초점을 옮긴다 — 키보드·화면 낭독기 사용자 (닫힐 때는 closeSheet가 FAB로 돌려준다)
+  useEffect(() => {
+    if (mounted) firstItemRef.current?.focus({ preventScroll: true });
+  }, [mounted]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -101,7 +120,7 @@ export const ShareFAB = memo(function ShareFAB() {
   }, [closeSheet]);
 
   const handleCopy = useCallback(async () => {
-    const ok = await copyLink(canonicalUrl());
+    const ok = await copyText(canonicalUrl());
     track('share_copy', { ok });
     closeSheet();
     showToast(ok ? '링크가 복사되었어요' : '복사에 실패했어요');
@@ -126,6 +145,7 @@ export const ShareFAB = memo(function ShareFAB() {
     <>
       {/* FAB — 카드와 같은 흰 바탕 + 옅은 테두리, 아이콘만 강조색 */}
       <button
+        ref={fabRef}
         onClick={openSheet}
         aria-label="공유하기"
         style={{
@@ -165,6 +185,7 @@ export const ShareFAB = memo(function ShareFAB() {
       {mounted && (
         <div
           role="dialog"
+          aria-modal="true"
           aria-label="공유하기"
           style={{
             position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 51,
@@ -202,7 +223,7 @@ export const ShareFAB = memo(function ShareFAB() {
             color: BL.label, marginBottom: 2, padding: '0 12px',
           }}>Share</div>
 
-          <button onClick={handleCopy} style={itemStyle}>
+          <button ref={firstItemRef} onClick={handleCopy} style={itemStyle}>
             <span style={iconSlotStyle}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                 stroke={BL.label} strokeWidth="2" strokeLinecap="round" aria-hidden>

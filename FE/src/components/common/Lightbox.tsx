@@ -19,7 +19,7 @@ const CLOSE_MS = 200;
  * 썸네일을 먼저 깔아 크기를 확정하고, 원본이 로드되면 그 위에 겹쳐 보여준다.
  *
  * 원본만 넣으면 로드 전 컨테이너 크기가 0이라 위에 얹힌 버튼들이 한곳에 뭉친다.
- * 썸네일은 캐러셀에서 이미 받아둔 것이라 캐시에서 즉시 그려진다.
+ * 썸네일은 갤러리 칸에서 이미 받아둔 것이라 캐시에서 즉시 그려진다.
  */
 function LightboxImage({ photo }: { photo: GalleryPhoto }) {
   const [loaded, setLoaded] = useState(false);
@@ -28,12 +28,12 @@ function LightboxImage({ photo }: { photo: GalleryPhoto }) {
   return (
     <>
       <img
-        src={photo.thumb ?? photo.full}
+        src={photo.thumb}
         alt={photo.caption}
         draggable={false}
         style={{
           display: 'block', verticalAlign: 'bottom',
-          // 썸네일은 320w라 width:auto로 두면 그 크기대로만 그려져 양옆이 빈다.
+          // width:auto면 썸네일(800w) 원래 크기대로 그려져 모달 폭과 어긋난다.
           // 폭을 채우고 높이는 비율대로 따라오게 한다.
           width: '100%', height: 'auto', maxHeight: maxH,
           objectFit: 'contain',
@@ -85,19 +85,27 @@ export function Lightbox({ photos, index, onClose, onMove }: LightboxProps) {
   const [dragging, setDragging] = useState(false);
   const [closing, setClosing] = useState(false);
   const closeTimerRef = useRef<number | null>(null);
+  // 닫히는 중인지 — state는 다음 렌더에야 바뀌어, 연달아 들어온 탭을 막으려면 ref가 필요하다
+  const closingRef = useRef(false);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
   const startXRef = useRef(0);
   const downRef = useRef(false);
   const wheelAtRef = useRef(0);
 
   const close = useCallback(() => {
+    // 닫히는 중에 들어온 탭·Esc는 무시한다. 예전엔 pointer-events: none으로 막았는데, 그러면 탭이
+    // 아래 페이지로 새어 썸네일이 다시 열리거나 영상·공유 버튼이 눌렸다 (2026-10-25 검토)
+    if (closingRef.current) return;
     if (reduced) {
       setDragX(0);
       onClose();
       return;
     }
     // 애니메이션을 보여준 뒤에 언마운트한다. 곧바로 onClose를 부르면 즉시 사라진다.
+    closingRef.current = true;
     setClosing(true);
     closeTimerRef.current = window.setTimeout(() => {
+      closingRef.current = false;
       setClosing(false);
       setDragX(0);
       onClose();
@@ -109,7 +117,7 @@ export function Lightbox({ photos, index, onClose, onMove }: LightboxProps) {
   }, []);
 
   const go = useCallback((delta: number) => {
-    if (index === null) return;
+    if (index === null || closingRef.current) return;
     setDragX(0);
     onMove(index + delta);
   }, [index, onMove]);
@@ -125,6 +133,14 @@ export function Lightbox({ photos, index, onClose, onMove }: LightboxProps) {
     return () => window.removeEventListener('keydown', onKey);
   }, [open, close, go]);
 
+  // 열리면 닫기 버튼으로 초점을 옮기고, 닫히면 연 버튼(갤러리 칸)으로 돌려준다 — 키보드·화면 낭독기 사용자
+  useEffect(() => {
+    if (!open) return;
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    closeBtnRef.current?.focus({ preventScroll: true });
+    return () => opener?.focus({ preventScroll: true });
+  }, [open]);
+
   if (!open) return null;
   const photo = photos[index];
   if (!photo?.full) return null;
@@ -133,7 +149,7 @@ export function Lightbox({ photos, index, onClose, onMove }: LightboxProps) {
 
   // ⚠️ pointerdown에서 곧바로 setPointerCapture를 부르면 안 된다.
   //    포인터가 모달에 캡처되어 위에 얹힌 버튼들이 click을 받지 못한다.
-  //    임계값을 넘어 실제로 끌기 시작할 때만 캡처한다 (PhotoRail과 같은 방식).
+  //    임계값을 넘어 실제로 끌기 시작할 때만 캡처한다 (졸업 레포 PhotoRail과 같은 방식).
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (!many || e.button !== 0) return;
     startXRef.current = e.clientX;
@@ -178,14 +194,18 @@ export function Lightbox({ photos, index, onClose, onMove }: LightboxProps) {
     go(d > 0 ? 1 : -1);
   };
 
-  const navStyle = {
-    position: 'absolute' as const, top: '50%',
-    width: 36, height: 36, border: 'none', borderRadius: '50%',
-    background: 'rgba(255,248,244,.86)', color: BL.text,
+  // 버튼은 누르는 영역(44px, 투명)과 보이는 원(faceStyle)을 나눈다 — 모양은 그대로 두고 손가락에 맞는 크기로.
+  const hitStyle = {
+    position: 'absolute' as const, width: 44, height: 44, border: 'none', padding: 0,
+    background: 'transparent', color: BL.text, cursor: 'pointer',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    cursor: 'pointer', padding: 0,
-    boxShadow: '0 2px 8px rgba(0,0,0,.3)',
   };
+  const faceStyle = (size: number) => ({
+    width: size, height: size, borderRadius: '50%',
+    background: 'rgba(255,248,244,.86)',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    boxShadow: '0 2px 8px rgba(0,0,0,.3)',
+  });
 
   return (
     <div
@@ -204,8 +224,6 @@ export function Lightbox({ photos, index, onClose, onMove }: LightboxProps) {
         backdropFilter: 'blur(7px)', WebkitBackdropFilter: 'blur(7px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 18,
-        // 닫는 중에는 입력을 받지 않는다 (중복 클릭 방지)
-        pointerEvents: closing ? 'none' : 'auto',
         animation: reduced
           ? undefined
           : closing
@@ -245,17 +263,14 @@ export function Lightbox({ photos, index, onClose, onMove }: LightboxProps) {
         {/* key로 리마운트시켜 사진이 바뀔 때 로딩 상태를 초기화한다 */}
         <LightboxImage key={photo.full} photo={photo} />
 
-        <button onClick={close} onPointerDown={stopDrag} aria-label="닫기" style={{
-          position: 'absolute', top: 8, right: 8,
-          width: 32, height: 32, border: 'none', borderRadius: '50%',
-          background: 'rgba(255,248,244,.86)', color: BL.text,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', padding: 0,
-          boxShadow: '0 2px 8px rgba(0,0,0,.3)',
-        }}>
-          <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden>
-            <path d="M3 3 L13 13 M13 3 L3 13" stroke="currentColor" strokeWidth="2" />
-          </svg>
+        {/* 보이는 원은 32px로 예전 자리(위·오른쪽 8px) 그대로 — 44px 영역을 6px 바깥으로 */}
+        <button ref={closeBtnRef} onClick={close} onPointerDown={stopDrag} aria-label="닫기"
+          style={{ ...hitStyle, top: 2, right: 2 }}>
+          <span style={faceStyle(32)}>
+            <svg width="13" height="13" viewBox="0 0 16 16" aria-hidden>
+              <path d="M3 3 L13 13 M13 3 L3 13" stroke="currentColor" strokeWidth="2" />
+            </svg>
+          </span>
         </button>
 
         {many && (
@@ -264,21 +279,25 @@ export function Lightbox({ photos, index, onClose, onMove }: LightboxProps) {
               onClick={() => go(-1)}
               onPointerDown={stopDrag}
               aria-label="이전 사진"
-              style={{ ...navStyle, left: 8, transform: 'translateY(-50%)' }}
+              style={{ ...hitStyle, top: '50%', left: 4, transform: 'translateY(-50%)' }}
             >
-              <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden>
-                <path d="M10 2 L4 8 L10 14" fill="none" stroke="currentColor" strokeWidth="2" />
-              </svg>
+              <span style={faceStyle(36)}>
+                <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden>
+                  <path d="M10 2 L4 8 L10 14" fill="none" stroke="currentColor" strokeWidth="2" />
+                </svg>
+              </span>
             </button>
             <button
               onClick={() => go(1)}
               onPointerDown={stopDrag}
               aria-label="다음 사진"
-              style={{ ...navStyle, right: 8, transform: 'translateY(-50%)' }}
+              style={{ ...hitStyle, top: '50%', right: 4, transform: 'translateY(-50%)' }}
             >
-              <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden>
-                <path d="M6 2 L12 8 L6 14" fill="none" stroke="currentColor" strokeWidth="2" />
-              </svg>
+              <span style={faceStyle(36)}>
+                <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden>
+                  <path d="M6 2 L12 8 L6 14" fill="none" stroke="currentColor" strokeWidth="2" />
+                </svg>
+              </span>
             </button>
 
             <div style={{

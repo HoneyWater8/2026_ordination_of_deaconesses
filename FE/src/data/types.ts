@@ -37,6 +37,8 @@ export type Place = {
   parking: string;
   /** 카카오 장소 검색으로 확인한 "lat,lng". 지도 핀과 외부 지도 앱 길찾기에 쓴다 */
   coords: string;
+  /** 네이버 지도 장소 ID — 네이버지도 버튼이 좌표가 아니라 장소 페이지(이름·길찾기)로 열리게 */
+  naverPlaceId?: string;
 };
 
 export type GalleryPhoto = {

@@ -9,6 +9,8 @@ export type LocationInfo = {
   address: string;
   /** "lat,lng" 형식 (예: "37.6173,126.6358"). 비워두면 검색 기반 URL 사용. */
   coords?: string;
+  /** 네이버 지도 장소 ID. 있으면 네이버지도가 장소 페이지로 열린다 */
+  naverPlaceId?: string;
 };
 
 function parseCoords(coords?: string): { lat: number; lng: number } | null {
@@ -33,10 +35,12 @@ export function kakaoMapUrl(loc: LocationInfo): string {
 }
 
 /**
- * 네이버지도 — 위치 보기.
- * universal 웹 URL. 모바일에서 앱 설치돼 있으면 앱이 자동으로 받음.
+ * 네이버지도 — 장소 ID가 있으면 장소 페이지(이름 · 주소 · 길찾기), 없으면 좌표 위치 보기.
+ * universal 웹 URL. 모바일 웹은 m.place.naver.com 장소 페이지로 넘어가고, 앱이 있으면 앱이 받을 수 있다.
+ * 좌표 URL(v5/?c=)은 핀·장소 이름 없이 그 위치 주소만 보여 준다 (2026-10-25 확인).
  */
 export function naverMapUrl(loc: LocationInfo): string {
+  if (loc.naverPlaceId) return `https://map.naver.com/p/entry/place/${loc.naverPlaceId}`;
   const c = parseCoords(loc.coords);
   if (c) {
     return `https://map.naver.com/v5/?c=${c.lng},${c.lat},15,0,0,0,dh`;

@@ -42,7 +42,7 @@ const sentErrors = new Set<string>();
 /**
  * 오류·실패를 GA4 표준 `exception` 이벤트로 보낸다. 같은 내용은 한 번만.
  *
- * 아이폰·카카오톡 앱 안 브라우저는 직접 확인하지 못한 환경이라, 그곳에서만 나는 오류를 보려는 것이다.
+ * 아이폰·카카오톡 앱 안 브라우저처럼 개발 중에 재현할 수 없는 환경에서만 나는 오류를 보려는 것이다.
  * 카카오 지도·공유처럼 실패해도 화면이 조용히 대체되는 곳은 호출부에서 직접 부른다.
  * GA 매개변수 값은 100자까지라 자른다.
  */
@@ -53,17 +53,26 @@ export function trackError(description: string, fatal = false) {
   track('exception', { description: d, fatal });
 }
 
-/** 처리되지 않은 오류를 모은다. 앱보다 먼저 등록해야 첫 렌더 중 오류도 잡힌다 */
+/** 이 사이트에서 내보낸 스크립트인지 — 오류 출처를 가린다 */
+const isOwnScript = (url: string | undefined) => !!url && url.startsWith(location.origin);
+
+/**
+ * 처리되지 않은 오류를 모은다. 앱보다 먼저 등록해야 첫 렌더 중 오류도 잡힌다.
+ *
+ * 이 사이트 파일에서 난 오류만 센다. 다른 출처 스크립트(GA·카카오·YouTube)의 오류는 대개 "Script error."로
+ * 가려져 오지만, 카카오 공유 SDK처럼 crossOrigin으로 불러온 것은 내용이 그대로 와서 출처로 걸러야 한다.
+ * 앱 안 브라우저가 끼워 넣은 스크립트의 오류는 파일 이름이 없다.
+ */
 export function initErrorTracking() {
   window.addEventListener('error', (e) => {
-    // 다른 출처 스크립트(GA·카카오·YouTube)의 오류는 브라우저가 내용을 가려 "Script error."만 오고,
-    // 앱 안 브라우저가 끼워 넣은 스크립트의 오류는 파일 이름이 없다 — 둘 다 이 앱의 오류가 아니라 버린다
-    if (!e.filename || e.message === 'Script error.') return;
+    if (!isOwnScript(e.filename) || e.message === 'Script error.') return;
     // fatal = 앱 코드에서 처리하지 못한 오류(화면이 깨졌을 수 있음). 처리된 실패·Promise 거부는 false
     trackError(`${e.message.replace(/^Uncaught /, '')} @ ${e.filename.split('/').pop()}:${e.lineno}`, true);
   });
   window.addEventListener('unhandledrejection', (e) => {
+    // Promise 거부에는 파일 이름이 없어 호출 스택에 이 사이트 파일이 있는지로 가린다
     const reason: unknown = e.reason;
-    trackError(`unhandled: ${reason instanceof Error ? reason.message : String(reason)}`);
+    if (!(reason instanceof Error) || !reason.stack?.includes(location.origin)) return;
+    trackError(`unhandled: ${reason.message}`);
   });
 }

@@ -17,15 +17,19 @@ const MAP_LINKS: Array<{ key: string; label: string; icon: string; getUrl: (loc:
   { key: 'tmap', label: 'T맵', icon: '/icons/tmap.svg', getUrl: tmapUrl },
 ];
 
-/** Kakao SDK 로드 전 / 키 미설정 상태에서 보여줄 자리. */
-function MapPlaceholder() {
+/**
+ * 지도를 못 불러왔을 때(키 미설정·SDK 실패)의 안내. 예전엔 디자인용 「MAP / 지도 영역」 자리가
+ * 그대로 보였다 — 실제 방문자에게는 길을 찾을 다른 방법을 알려 준다.
+ */
+function MapUnavailable() {
   return (
     <div style={{
       position: 'absolute', inset: 0, borderRadius: BL.cardRadius, border: `1px dashed ${BL.textSoft}`,
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6,
+      padding: 16, textAlign: 'center', wordBreak: 'keep-all',
     }}>
-      <span style={{ fontFamily: FF.latin, fontWeight: 600, fontSize: 12, letterSpacing: 3, color: BL.label }}>MAP</span>
-      <span style={{ fontFamily: FF.body, fontSize: 13, color: BL.label }}>지도 영역</span>
+      <span style={{ fontFamily: FF.body, fontSize: 14, fontWeight: 700, color: BL.text }}>지도를 불러오지 못했어요</span>
+      <span style={{ fontFamily: FF.body, fontSize: 13, color: BL.textSoft }}>아래 지도 앱 버튼으로 길을 찾아 주세요</span>
     </div>
   );
 }
@@ -34,7 +38,7 @@ function MapPlaceholder() {
 export function Location() {
   const { place } = O;
   const rows: [string, string][] = [['주소', place.address], ['지하철', place.subway], ['주차', place.parking]];
-  const loc: LocationInfo = { name: place.name, address: place.address, coords: place.coords };
+  const loc: LocationInfo = { name: place.name, address: place.address, coords: place.coords, naverPlaceId: place.naverPlaceId };
 
   return (
     <Section label="06 Location">
@@ -45,7 +49,7 @@ export function Location() {
           name={place.name}
           coords={place.coords}
           level={3}
-          fallback={<MapPlaceholder />}
+          fallback={<MapUnavailable />}
           style={{
             aspectRatio: '16 / 10', borderRadius: BL.cardRadius, background: BL.photo,
             overflow: 'hidden', marginBottom: 14,

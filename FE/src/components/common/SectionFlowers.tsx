@@ -29,7 +29,7 @@ export function SectionFlowers({ kind, seed }: SectionFlowersProps) {
   const [sectionHeight, setSectionHeight] = useState(800);
   const reduced = usePrefersReducedMotion();
   // 화면 밖 섹션의 무한 애니메이션은 멈춘다. 앞뒤 여유를 둬 들어올 때 이미 움직이고 있게 한다.
-  const inView = useInView(boxRef, true, '200px 0px');
+  const inView = useInView(boxRef, '200px 0px');
 
   useEffect(() => {
     const el = boxRef.current;

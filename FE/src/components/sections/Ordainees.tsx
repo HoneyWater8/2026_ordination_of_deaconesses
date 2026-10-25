@@ -33,7 +33,8 @@ function Portrait({ person }: { person: Ordainee }) {
       {person.photo && !failed ? (
         <img
           src={person.photo}
-          alt={`${person.base} 권사`}
+          // 이름이 바로 아래 글자로 있어 사진 설명을 비운다 — 채우면 화면 낭독기가 66명을 두 번씩 읽는다
+          alt=""
           loading="lazy"
           decoding="async"
           onError={() => setFailed(true)}

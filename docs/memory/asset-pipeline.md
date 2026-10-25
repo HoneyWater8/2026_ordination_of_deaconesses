@@ -7,7 +7,7 @@ metadata:
 
 **원본은 저장소에 넣지 않고 줄인 사본만 커밋합니다** (졸업 레포와 같은 원칙). 사진 원본은 `assets/photo-originals/`, 폰트 원본 캐시는 `assets/font-work/` — 모두 git 제외.
 
-| 자산 | 수령 경로 | 상태 (2026-10-24) |
+| 자산 | 수령 경로 | 상태 (2026-10-25) |
 |---|---|---|
 | 로고 | 가족 한마당 레포 `FE/public/icons/hanaro.png` (2026-10-24 사용자 지시) | ✅ 흰 배경 제거 → `FE/src/assets/logo.webp` |
 | 임직자 사진 66장 | **임직 예정자 카톡방** 자료 — 2026-10-25 사용자가 `이름.jpg`로 모아 `assets/photo-originals/ordainees/`에 저장 | ✅ 66명 반영 (2026-10-25) — `FE/public/ordainees/01~66.webp` |

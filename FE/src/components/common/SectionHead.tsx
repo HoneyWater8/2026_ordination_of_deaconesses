@@ -19,12 +19,13 @@ export function SectionHead({ ko, en }: SectionHeadProps) {
           fontFamily: FF.latin, fontWeight: 600, fontStyle: 'italic', fontSize: 18,
           letterSpacing: 0.4, color: BL.label,
         }}>{en}</div>
-        <div style={{
-          marginTop: 7, display: 'inline-flex', alignItems: 'center', gap: 8,
+        {/* 제목 태그(h2) — 화면 낭독기가 섹션 단위로 건너뛸 수 있게. 첫 화면 제목이 h1. 기본 여백은 지운다 */}
+        <h2 style={{
+          margin: '7px 0 0', display: 'inline-flex', alignItems: 'center', gap: 8,
           fontFamily: FF.display, fontWeight: 700, fontSize: 27, letterSpacing: -0.5, color: BL.text,
         }}>
           {ko}
-        </div>
+        </h2>
         {kind && <FlowerOrn kind={kind} w={110} caption />}
       </div>
     </Reveal>

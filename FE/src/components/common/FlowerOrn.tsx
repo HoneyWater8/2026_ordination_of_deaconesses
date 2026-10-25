@@ -3,6 +3,7 @@ import { BL, MOTION } from '../../theme/tokens';
 import { O } from '../../data/ordination';
 import type { FlowerKind } from '../../data/types';
 import { useReveal } from '../../hooks/useReveal';
+import { useInView } from '../../hooks/useInView';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { Flower } from './Flower';
 import { FlowerCaption } from './FlowerCaption';
@@ -23,6 +24,8 @@ export function FlowerOrn({ kind, w, caption = false }: FlowerOrnProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = usePrefersReducedMotion();
   const on = useReveal(ref) || reduced;
+  // 핀 뒤 무한 살랑·회전은 화면 밖에서 멈춘다 (섹션 배경 꽃과 같은 여유)
+  const playState = useInView(ref, '200px 0px') ? 'running' : 'paused';
   const sprig = O.flowers.info[kind].type === 'sprig';
 
   const line = (origin: string) => ({
@@ -41,7 +44,7 @@ export function FlowerOrn({ kind, w, caption = false }: FlowerOrnProps) {
         }}>
           <div className="od-anim" style={{
             transformOrigin: sprig ? '50% 95%' : '50% 50%',
-            animation: on ? `${sprig ? 'od-sway' : 'od-turn'} ${sprig ? 6 : 11}s ease-in-out 1.4s infinite` : 'none',
+            animation: on ? `${sprig ? 'od-sway' : 'od-turn'} ${sprig ? 6 : 11}s ease-in-out 1.4s infinite ${playState}` : 'none',
           }}>
             <Flower kind={kind} size={sprig ? 46 : 38} />
           </div>

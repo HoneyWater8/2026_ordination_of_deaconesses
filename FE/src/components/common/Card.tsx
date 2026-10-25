@@ -7,7 +7,7 @@ type CardProps = {
   pad?: number;
 };
 
-/** 흰 카드 — 둥근 모서리 18px + 옅은 장밋빛 그림자. 일시·순서·오시는 길·안내가 쓴다. */
+/** 흰 카드 — 둥근 모서리 18px + 옅은 장밋빛 그림자. 일시·오시는 길·안내가 쓴다. */
 export function Card({ children, pad = 22 }: CardProps) {
   return (
     <div style={{

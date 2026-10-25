@@ -84,15 +84,18 @@ function loadKakaoMaps(appKey: string): Promise<void> {
 }
 
 /**
- * Kakao Maps SDK 로딩 상태 훅.
- * 키가 없으면 null을 영구 반환 → 컴포넌트는 폴백을 표시.
+ * Kakao Maps SDK 로딩 상태 훅. enabled가 true가 된 뒤에야 SDK를 부른다.
+ * failed — 키가 없거나 SDK를 못 불러왔다 → 컴포넌트는 실패 안내를 표시.
  */
-export function useKakaoMapsSdk(): KakaoMapsApi | null {
+export function useKakaoMapsSdk(enabled: boolean): { maps: KakaoMapsApi | null; failed: boolean } {
   const [maps, setMaps] = useState<KakaoMapsApi | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const appKey = import.meta.env.VITE_KAKAO_MAP_KEY;
+  const hasKey = !!appKey && appKey.trim() !== '';
 
   useEffect(() => {
-    const appKey = import.meta.env.VITE_KAKAO_MAP_KEY;
-    if (!appKey || appKey.trim() === '') {
+    if (!enabled) return;
+    if (!hasKey || !appKey) {
       if (import.meta.env.DEV) {
         console.warn(
           '[KakaoMap] VITE_KAKAO_MAP_KEY가 설정되지 않았습니다. ' +
@@ -110,14 +113,15 @@ export function useKakaoMapsSdk(): KakaoMapsApi | null {
       },
       (err) => {
         if (import.meta.env.DEV) console.warn('[KakaoMap] SDK load failed:', err);
-        // 화면은 조용히 폴백으로 바뀌므로, 실기기에서 실패했는지는 집계로만 알 수 있다
+        if (!cancelled) setLoadFailed(true);
+        // 화면은 실패 안내로 바뀌지만 사용자가 알려 주지 않으니, 실기기에서 실패했는지는 집계로 본다
         trackError(`kakao_map: ${err instanceof Error ? err.message : String(err)}`);
       }
     );
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [enabled, hasKey, appKey]);
 
-  return maps;
+  return { maps, failed: enabled && (!hasKey || loadFailed) };
 }

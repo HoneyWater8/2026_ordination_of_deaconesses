@@ -21,8 +21,6 @@ html, body {
   justify-content: center;
 }
 
-a { color: #B44B60; }
-a:hover { color: #3A2A2C; }
 button { font-family: inherit; }
 
 .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }

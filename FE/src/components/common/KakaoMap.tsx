@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { BL } from '../../theme/tokens';
 import { useKakaoMapsSdk } from '../../utils/kakaoMap';
+import { useInView } from '../../hooks/useInView';
 
 type KakaoMapProps = {
   /** 검색할 주소 — Geocoder로 좌표 변환 (coords가 있으면 무시) */
@@ -12,16 +13,23 @@ type KakaoMapProps = {
   coords?: string;
   /** 줌 레벨 (1=상세 ~ 14=시도). 기본 3 (구 단위 정도) */
   level?: number;
-  /** SDK 로딩 전·실패 시 표시할 폴백 (예: placeholder) */
+  /** 키가 없거나 SDK를 못 불러왔을 때 표시할 안내. 불러오는 중에는 빈 배경(style의 background)만 보인다 */
   fallback?: ReactNode;
   /** 외부 컨테이너 스타일 (aspect-ratio, border 등) */
   style?: CSSProperties;
 };
 
+/** 화면 아래로 이만큼 남았을 때 미리 불러온다 — 섹션에 닿을 즈음엔 그려져 있게 */
+const NEAR_MARGIN = '800px 0px';
+
 /**
- * Kakao 지도 임베드. (2026 하나로 가족 한마당 구현과 동일한 동작)
- * - SDK 미로드/키 미설정 시 fallback만 표시.
- * - 로드되면 map div가 opacity 페이드인되며 fallback을 덮음.
+ * Kakao 지도 임베드. (2026 하나로 가족 한마당 구현에서 출발)
+ * - 화면에 가까워지면(위 NEAR_MARGIN) 그때 SDK를 부른다. 가족 한마당처럼 처음부터 부르면 맨 위 화면에서도
+ *   지도 SDK·타일 약 430KB를 받아 첫 로딩의 절반 가까이를 차지했다 (2026-10-25 검토, 느린 4G 실측).
+ * - 지도는 터치·클릭을 받지 않는다(pointer-events: none). 받으면 한 손가락으로 지도 위를 쓸 때 페이지 대신
+ *   지도가 움직여 스크롤이 막힌다 — 터치 에뮬레이션에서 지도 위 스크롤 0px. 카카오 API의 setDraggable(false)·
+ *   setZoomable(false)로는 여전히 0px이라 입력 자체를 페이지로 넘긴다. 길찾기는 아래 지도 앱 버튼이 맡는다.
+ * - 로드되면 map div가 opacity 페이드인. 키가 없거나 SDK를 못 불러오면 fallback을 보인다.
  * - coords 우선 → 없으면 Geocoder(주소) → 그래도 실패하면 Places(키워드)로 단계적 검색.
  */
 export function KakaoMap({
@@ -32,7 +40,9 @@ export function KakaoMap({
   fallback,
   style,
 }: KakaoMapProps) {
-  const maps = useKakaoMapsSdk();
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const near = useInView(wrapRef, NEAR_MARGIN, true);
+  const { maps, failed } = useKakaoMapsSdk(near);
   const containerRef = useRef<HTMLDivElement>(null);
   const [mapReady, setMapReady] = useState(false);
 
@@ -113,8 +123,8 @@ export function KakaoMap({
   }, [maps, address, coords, name, level]);
 
   return (
-    <div style={{ position: 'relative', ...style }}>
-      {fallback}
+    <div ref={wrapRef} style={{ position: 'relative', ...style }}>
+      {failed && fallback}
       <div
         ref={containerRef}
         style={{
@@ -122,7 +132,7 @@ export function KakaoMap({
           inset: 0,
           opacity: mapReady ? 1 : 0,
           transition: 'opacity 0.4s ease',
-          pointerEvents: mapReady ? 'auto' : 'none',
+          pointerEvents: 'none',
         }}
       />
     </div>

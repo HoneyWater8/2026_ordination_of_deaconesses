@@ -11,17 +11,17 @@
 | `FE/` | Vite 8 + React 19 + TS 6. 런타임 의존성 3개(`react`/`react-dom`/`@vercel/analytics`). **서버·API 없음** |
 | `FE-legacy/` | Claude Design 핸드오프 원본(이번 프로젝트분만). **구현 기준 스펙은 `FE-legacy/README.md`**, 채택안은 `final/` |
 | `docs/` | 요구사항 · 작업로그 · 메모리 |
-| `scripts/` | 부분 폰트 · 사진 변환 · 로고 배경 제거 (Python) |
+| `scripts/` | 부분 폰트 · 사진 변환 · 로고 배경 제거 (Python) · 공유 썸네일 원본(`thumbnail.html`) |
 
 구조·스택·컨벤션은 앞선 두 프로젝트를 그대로 따른다 — `C:\dev\2026_amen17_graduation`(직접 기준), `C:\dev\2026_hanaro_family_festival`(지도 구현의 출처).
 
 ## 코드 컨벤션
 
 - 스타일은 **전부 인라인 `style={{}}`**. `src/index.css`는 리셋 · `@keyframes`(`od-` 접두사) · `.no-scrollbar` · `.od-anim`만 담당
-- 색·폰트·모션은 반드시 `src/theme/tokens.ts`의 `BL` / `FF` / `MOTION` 경유. 하드코딩 금지
-- 콘텐츠 문자열은 전부 `src/data/ordination.ts` 한 파일 (꽃 이름 포함). 꽃 **그림**만 `components/common/Flower.tsx`
+- 색·폰트·모션은 반드시 `src/theme/tokens.ts`의 `BL` / `FF` / `MOTION` 경유. 하드코딩 금지. 예외 두 가지 — 꽃 그림(`Flower.tsx`)의 팔레트는 시안 색 그대로, 그림자·반투명 배경의 `rgba()`는 `BL.text`(58,42,44)·`BL.bg`(255,248,244) 값을 풀어 쓴다
+- 행사 콘텐츠(일시·장소·초대글·명단·안내·꽃 이름·말씀)는 전부 `src/data/ordination.ts` 한 파일. 섹션 제목·버튼 문구 같은 UI 라벨은 컴포넌트에 둔다. 꽃 **그림**만 `components/common/Flower.tsx`
 - 컴포넌트는 named export(`export function Hero()`), 섹션 1개 = 파일 1개
-- 파일 헤더는 `/* ───── 제목 ───── */` 박스 주석. 주석은 한국어로 **"왜"**를 설명
+- 파일 헤더 주석을 둘 때는 `/* ───── 제목 ───── */` 박스 형식 (지금은 데이터·유틸·일부 섹션에만 있다). 주석은 한국어로 **"왜"**를 설명
 - 타입은 `type` 선언 + `import type` (`verbatimModuleSyntax: true`)
 - 섹션 02~08은 `Section`(라벨 → 섹션 꽃 공급 · 배경 꽃 · GA `section_view`). 04(예배 순서)는 2026-10-24 뺐다. 첫 화면·마지막 화면은 고유 레이아웃이라 `useSectionView`만 직접 쓴다
 
@@ -43,6 +43,12 @@
 - `animation-fill-mode` — 진입은 `backwards`, 닫힘은 `forwards`
 - 카카오 키는 **두 개**: 지도 `VITE_KAKAO_MAP_KEY`(가족 한마당 앱 — 무료 쿼터), 공유 `VITE_KAKAO_JS_KEY`(이 프로젝트 앱). 합치지 말 것
 - 명단은 담당자 **원문 순서로 보관**하고 화면에서 가나다순 정렬. 사진 번호(`ordainees/NN.webp`)가 원문 순서를 따른다 — 사람을 추가할 땐 맨 뒤에
+- `section_view`는 **화면 가운데 선**을 지날 때 센다(`rootMargin: '-50% 0px -50% 0px'`). 「n% 보이면」(threshold)으로 되돌리면 화면보다 2.5배 넘게 긴 섹션(05 임직자)이 한 번도 집계되지 않는다
+- 카카오 지도는 화면에 가까워지면 불러오고 **`pointer-events: none`** — 입력을 받으면 한 손가락으로 지도 위를 쓸 때 페이지가 스크롤되지 않는다(카카오 API로 끌기를 꺼도 같음). 길찾기는 지도 앱 버튼
+- 확대 보기가 닫히는 중의 입력은 `closingRef`로 무시한다. `pointer-events: none`으로 막지 말 것 — 탭이 아래 페이지로 새어 사진·영상·공유가 눌린다
+- 검색 노출을 막는다 — `index.html`의 `noindex` 메타 + `vercel.json`의 `X-Robots-Tag`. `robots.txt`는 두지 말 것(카카오톡 공유 미리보기 스크래퍼가 따를 수 있다)
+- 오류 집계(`initErrorTracking`)는 이 사이트 출처의 스크립트만 센다 — 카카오 공유 SDK는 crossOrigin으로 불러 오류 내용이 그대로 오므로 출처로 거른다
+- D-day는 한국 시간으로 센다 — 기기 시간대로 세면 해외 기기에서 하루 어긋난다
 - `vercel link`는 `FE/.gitignore` 끝에 `.vercel`·`.env*`를 덧붙여 `!.env.example`을 무효화한다 → 링크 후 되돌리고 `git check-ignore -v`로 확인
 
 ## 검증

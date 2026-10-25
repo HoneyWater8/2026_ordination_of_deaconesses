@@ -2,19 +2,21 @@
 import { useEffect, useState } from 'react';
 import type { RefObject } from 'react';
 
-export function useInView(
-  ref: RefObject<HTMLElement | null>, active: boolean, rootMargin = '0px', once = false,
-) {
+/**
+ * 요소가 스크롤 컨테이너의 화면(± rootMargin) 안에 있는지.
+ * once면 처음 들어온 뒤로는 관찰을 끊고 true를 유지한다 — 한 번만 불러오면 되는 지도 같은 것.
+ */
+export function useInView(ref: RefObject<HTMLElement | null>, rootMargin = '0px', once = false) {
   const [inView, setInView] = useState(false);
   const enteredOnce = once && inView;
   useEffect(() => {
     const element = ref.current;
-    if (!active || !element || enteredOnce) return;
+    if (!element || enteredOnce) return;
     const observer = new IntersectionObserver(([entry]) => {
       setInView(entry.isIntersecting);
     }, { root: element.closest('[data-scroll-root]'), rootMargin });
     observer.observe(element);
     return () => observer.disconnect();
-  }, [ref, active, rootMargin, enteredOnce]);
-  return active && inView;
+  }, [ref, rootMargin, enteredOnce]);
+  return inView;
 }

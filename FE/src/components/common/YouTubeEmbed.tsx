@@ -3,6 +3,7 @@
    ───────────────────────────────────────────────────────── */
 
 import { useEffect, useRef } from 'react';
+import { BL } from '../../theme/tokens';
 import { track } from '../../utils/analytics';
 
 type YouTubeEmbedProps = {
@@ -43,7 +44,7 @@ export function YouTubeEmbed({ videoId, title, slotKey }: YouTubeEmbedProps) {
       data-video-key={slotKey}
       style={{
         position: 'relative', width: '100%', aspectRatio: '16 / 9', borderRadius: 12,
-        background: '#241A1C', overflow: 'hidden',
+        background: BL.video, overflow: 'hidden',
       }}
     >
       <iframe
