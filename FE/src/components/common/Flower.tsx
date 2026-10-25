@@ -1,8 +1,9 @@
 /* ─────────────────────────────────────────────────────────
-   성경 속 꽃 8종 · 코드로 그린 SVG (viewBox 100×100)
+   성경 속 꽃 7종 · 코드로 그린 SVG (viewBox 100×100)
    FE-legacy/final/ordain-flowers-bible.jsx의 도형·색을 그대로 옮겼다.
    예배 순서 섹션의 우슬초는 2026-10-24 섹션과 함께 뺐다 (원본은 위 파일에 있다).
-   이름·구절·해설은 그림이 아니라 콘텐츠라 data/ordination.ts에 있다.
+   마지막 화면의 종려나무는 2026-10-25 살구꽃으로 바꾸며 뺐다 (원본은 위 파일에 있다).
+   꽃 이름·모양(한 송이·가지)과 섹션과의 짝은 콘텐츠라 data/ordination.ts에 있다.
    ───────────────────────────────────────────────────────── */
 
 import { useId } from 'react';
@@ -337,37 +338,9 @@ function Anemone({ size }: { size: number }) {
   );
 }
 
-// ── 종려나무 · 시편 92:12 ──
-const PALM_RACHIS: Cubic = [[12, 97], [30, 72], [52, 48], [88, 16]];
-/** 잎줄기를 따라 양쪽으로 깃꼴 잎을 단다. 끝으로 갈수록 짧아진다 */
-const PALM_LEAFLETS = Array.from({ length: 27 }, (_, i) => {
-  const t = 0.1 + 0.88 * i / 26;
-  const [x, y] = cb(PALM_RACHIS, t), a = deg(ct(PALM_RACHIS, t));
-  const L = 20 * (1 - 0.55 * i / 26) + 4;
-  return [-1, 1].map(sd => ({
-    key: `${i}${sd}`, x, y, rotate: a + 90 + sd * 58, L,
-    fill: (i + (sd > 0 ? 1 : 0)) % 2 ? '#9BB487' : '#86A273',
-  }));
-}).flat();
-
-function Palm({ size }: { size: number }) {
-  return (
-    <Svg size={size}>
-      {PALM_LEAFLETS.map(l => (
-        <g key={l.key} transform={`translate(${l.x} ${l.y}) rotate(${l.rotate})`}>
-          <path d={`M0 0 C 1.4 ${-l.L * 0.3}, 1.2 ${-l.L * 0.7}, 0 ${-l.L} C -0.6 ${-l.L * 0.7}, -0.8 ${-l.L * 0.3}, 0 0 Z`}
-            fill={l.fill} stroke="#6F8C5E" strokeWidth=".3" />
-          <path d={`M0 -1 L0 ${-l.L + 1}`} stroke="#6F8C5E" strokeWidth=".3" opacity=".6" />
-        </g>
-      ))}
-      <path d="M12 97 C 30 72, 52 48, 88 16" fill="none" stroke="#8C9A6A" strokeWidth="1.6" strokeLinecap="round" />
-    </Svg>
-  );
-}
-
 const FLOWERS: Record<FlowerKind, (props: { size: number }) => ReactNode> = {
   almond: Almond, narcissus: Narcissus, lily: Lily, pomegranate: Pomegranate,
-  olive: Olive, grape: Grape, anemone: Anemone, palm: Palm,
+  olive: Olive, grape: Grape, anemone: Anemone,
 };
 
 /** 꽃 한 송이(또는 가지). kind에 맞는 그림을 그린다. */
@@ -384,7 +357,6 @@ const BITS: Record<Exclude<FlowerKind, 'grape'>, [string, string, string]> = {
   pomegranate: ['M10 19 C 3 16, 1.5 7, 5 3.5 C 7 1.6, 13 1.6, 15 3.5 C 18.5 7, 17 16, 10 19 Z', '#EE6E58', '#C23A36'],
   olive: ['M10 19 C 12.5 13, 12.5 6, 10 1 C 7.5 6, 7.5 13, 10 19 Z', '#A7B79E', '#6F8768'],
   anemone: ['M10 19 C 3 16, 1.5 7, 5 3.5 C 7 1.6, 13 1.6, 15 3.5 C 18.5 7, 17 16, 10 19 Z', '#DE4A50', '#A82434'],
-  palm: ['M10 19 C 11.4 13, 11.2 6, 10 1 C 8.8 6, 8.6 13, 10 19 Z', '#9BB487', '#6F8C5E'],
 };
 
 /** 꽃잎 하나 — 포도는 꽃잎 대신 알갱이가 떨어진다. */

@@ -11,7 +11,7 @@ type FlowerOrnProps = {
   kind: FlowerKind;
   /** 구분선 전체 폭 */
   w: number;
-  /** 아래에 꽃 캡션(이름 | 장절 | ?)을 붙인다 */
+  /** 아래에 꽃 이름을 붙인다 */
   caption?: boolean;
 };
 

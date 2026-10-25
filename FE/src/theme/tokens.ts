@@ -33,7 +33,7 @@ export const BL = {
 };
 
 export const FF = {
-  /** 제목·구절 — 고운바탕 */
+  /** 제목 — 고운바탕 */
   display: '"Ordain Batang", serif',
   /** 본문 — 프리텐다드 */
   body:    '"Ordain Sans", -apple-system, sans-serif',
@@ -51,14 +51,11 @@ export const MOTION = {
   ornBloom:   'transform 1.1s cubic-bezier(.34,1.56,.64,1) .15s',
   /** 구분선 양옆 선이 가운데서 펼쳐짐 */
   ornLine:    'transform 1s cubic-bezier(.22,1,.36,1) .35s',
-  /** 꽃이 핀 뒤 캡션 등장 */
+  /** 꽃이 핀 뒤 꽃 이름 등장 */
   captionIn:  'opacity .8s ease .9s, transform .8s ease .9s',
 
   /** 첫 화면 하단 SCROLL 바운스 */
   scrollBob:  'od-bob 2.2s ease-in-out infinite',
-  /** 말씀 해설 시트 */
-  sheetFade:  'od-fade-in .25s ease-out',
-  sheetIn:    'od-sheet-in .42s cubic-bezier(.22,1,.36,1)',
 };
 
 /** 루트 레이아웃 */

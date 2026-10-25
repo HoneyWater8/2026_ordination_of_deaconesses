@@ -2,19 +2,18 @@
    권사 임직 감사예배 초대장 데이터 타입 정의
    ───────────────────────────────────────────────────────── */
 
-/** 성경 속 꽃 8종 — 그림은 components/common/Flower.tsx */
+/** 성경 속 꽃 7종 — 그림은 components/common/Flower.tsx */
 export type FlowerKind =
   | 'almond' | 'narcissus' | 'lily' | 'pomegranate'
-  | 'olive' | 'grape' | 'anemone' | 'palm';
+  | 'olive' | 'grape' | 'anemone';
 
+/**
+ * 꽃 정보. 장절·구절·「?」 해설은 2026-10-25 뺐다 (담당 전도사 피드백 — 말씀 부분 제외).
+ * 어떤 꽃이 어느 말씀에서 왔는지는 ordination.ts의 주석에 남겨 둔다.
+ */
 export type FlowerInfo = {
+  /** 구분선 아래에 한 줄로 보이는 꽃 이름 */
   name: string;
-  /** 장절 (예: "민수기 17:8") */
-  ref: string;
-  /** 캡션 아래 한 줄로 보이는 구절 */
-  verse: string;
-  /** 「?」 시트의 해설 본문 */
-  note: string;
   /**
    * head  — 한 송이. 구분선에서 천천히 회전하고, 배경에서는 위 모서리에 놓인다
    * sprig — 가지. 구분선에서 살랑이고, 배경에서는 아래 모서리에서 자란다
@@ -90,6 +89,8 @@ export type OrdinationData = {
     /** 섹션 → 꽃. 첫 화면·마지막 화면도 여기서 정한다 */
     bySection: Partial<Record<SectionLabel, FlowerKind>>;
   };
+  /** 마지막 화면의 말씀 — 화면 줄 단위 본문 + 장절 */
+  closing: { lines: string[]; sign: string };
   credit: string;
   share: { title: string };
 };

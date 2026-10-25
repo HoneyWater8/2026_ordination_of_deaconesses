@@ -24,6 +24,7 @@ metadata:
 - 배포는 [[ask-before-commit-push]]에 따른 `main` 푸시로만. 푸시 후 `vercel ls`로 Ready를 확인하고 실제 도메인에서 확인합니다.
 - **Ready 확인은 커밋 해시로** 합니다 — `vercel api "/v6/deployments?projectId=…"`의 `meta.githubCommitSha`. `vercel ls`의 첫 Production 줄은 새 배포가 아직 없으면 직전 배포를 보여 줘 「Ready」로 착각합니다 (2026-10-24 실제로 착각).
 - **푸시가 배포로 이어지지 않을 때가 있습니다.** 2026-10-24 `59298a1` 푸시 후 13분간 배포 기록이 전혀 없었습니다(실패·취소도 아님). Git 연결·빌드 무시 설정·Vercel과 GitHub 상태 페이지는 모두 정상이었습니다. 사용자 승인을 받아 빈 커밋(`git commit --allow-empty`)을 푸시하자 14초 만에 배포됐습니다. 평소에는 푸시 후 20초 안에 배포가 잡히므로, 1~2분 지나도 없으면 이 경우를 의심합니다. 빈 커밋도 푸시라 사용자 확인을 받습니다.
+  - 2026-10-25 `7d8945f`에서 **두 번째로** 같은 일이 생겼습니다(6시간 반 동안 배포 없음). 사용자가 대시보드 **Redeploy**를 눌렀지만 직전 배포의 커밋 `77891d4`를 다시 빌드했을 뿐입니다 — Redeploy는 새 커밋을 가져오지 않습니다. 빈 커밋 `43045b0` 푸시 후 30초 안에 배포됐습니다. 그러니 이 경우엔 Redeploy보다 빈 커밋을 먼저 권합니다.
 - 프로젝트의 `gitProviderOptions.createDeployments: disabled`(졸업은 `enabled`)는 GitHub 저장소의 Deployments 기록 생성 여부일 뿐 Vercel 빌드와 무관합니다 (Vercel REST API 문서).
 - `vercel.json`의 1시간 캐시 헤더는 404 응답에도 붙습니다. 썸네일처럼 아직 없는 고정 경로에 파일을 새로 넣으면, 먼저 404를 받은 브라우저는 최대 1시간 옛 응답을 쓸 수 있습니다.
 - Windows Git Bash에서 `vercel api /v9/...`를 쓰면 경로가 Windows 경로로 바뀌어 실패합니다 → `MSYS_NO_PATHCONV=1`을 붙입니다.

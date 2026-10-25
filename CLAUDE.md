@@ -19,7 +19,7 @@
 
 - 스타일은 **전부 인라인 `style={{}}`**. `src/index.css`는 리셋 · `@keyframes`(`od-` 접두사) · `.no-scrollbar` · `.od-anim`만 담당
 - 색·폰트·모션은 반드시 `src/theme/tokens.ts`의 `BL` / `FF` / `MOTION` 경유. 하드코딩 금지
-- 콘텐츠 문자열은 전부 `src/data/ordination.ts` 한 파일 (꽃 이름·구절·해설 포함). 꽃 **그림**만 `components/common/Flower.tsx`
+- 콘텐츠 문자열은 전부 `src/data/ordination.ts` 한 파일 (꽃 이름 포함). 꽃 **그림**만 `components/common/Flower.tsx`
 - 컴포넌트는 named export(`export function Hero()`), 섹션 1개 = 파일 1개
 - 파일 헤더는 `/* ───── 제목 ───── */` 박스 주석. 주석은 한국어로 **"왜"**를 설명
 - 타입은 `type` 선언 + `import type` (`verbatimModuleSyntax: true`)
@@ -29,7 +29,7 @@
 
 - `100dvh` 사용 (`100vh` 아님) · body 배경은 `BL.outer`
 - 스크롤은 body가 아니라 `[data-scroll-root]`. IntersectionObserver의 root도 그 컨테이너 (`useReveal`·`useInView`·`useSectionView`)
-- 오버레이(말씀 시트·확대 보기)는 `position: fixed` + **앱 폭(460px)에 맞춰 가운데 정렬** — `inset: 0`이면 데스크톱에서 앱 바깥까지 덮는다. 말씀 시트는 `createPortal`로 body에 (Reveal의 transform 회피)
+- 오버레이(확대 보기 등)는 `position: fixed` + **앱 폭(460px)에 맞춰 가운데 정렬** — `inset: 0`이면 데스크톱에서 앱 바깥까지 덮는다. `Reveal` 안에서 여는 오버레이는 `createPortal`로 body에 (Reveal의 transform에 fixed가 갇힌다 — 2026-10-25 뺀 말씀 시트가 그렇게 했다)
 - `BL.accent`는 24px 미만 텍스트 금지 (bg 위 4.14:1) → 작은 글씨는 `BL.label`. `BL.accent2`는 장식 전용
 - `FF.latin`(Garamond)에 한글 금지 — 한 줄 안에서 서체가 갈라진다
 - 꽃 애니메이션은 `.od-anim` (모션 감소 시 정지). **떨어지는 꽃잎은 모션 감소 시 아예 그리지 않는다** — 멈추면 섹션 위쪽에 박제된다

@@ -9,7 +9,7 @@ type SectionHeadProps = {
   en: string;
 };
 
-/** 섹션 헤더 — 영문 라벨(이탤릭) + 한글 제목 + 섹션 꽃 구분선 + 꽃 캡션. */
+/** 섹션 헤더 — 영문 라벨(이탤릭) + 한글 제목 + 섹션 꽃 구분선 + 꽃 이름. */
 export function SectionHead({ ko, en }: SectionHeadProps) {
   const kind = useSectionFlower();
   return (
