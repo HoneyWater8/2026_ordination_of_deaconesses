@@ -15,10 +15,11 @@ type ScrollHintProps = {
  * 아래에 더 있다는 표시. 처음부터 띄우지 않고, 스크롤하지 않은 채 delay가 지나면 서서히 나타난다.
  * 사용자가 한 번이라도 스크롤하면 사라지고 다시 나오지 않는다 — 그 전에 스크롤하면 아예 뜨지 않는다.
  *
- * delay 3초 — 첫 화면 Reveal(마지막 0.5s 시작)과 구분선 꽃 · 캡션이 2.2초쯤 자리를 잡으므로,
+ * delay 2.5초 — 첫 화면 Reveal(마지막 0.5s 시작)과 구분선 꽃이 2초 안쪽에서 자리를 잡으므로,
  * 그와 겹치지 않고 「멈춰 있는 사용자」에게만 보이도록 미뤘다. (졸업은 봉투가 열린 뒤 1.5초)
+ * 처음엔 3초였다가 사용자 요청으로 2.5초 (2026-10-25).
  */
-export function ScrollHint({ playing, delay = 3000 }: ScrollHintProps) {
+export function ScrollHint({ playing, delay = 2500 }: ScrollHintProps) {
   const ref = useRef<HTMLDivElement>(null);
   const scrolled = useScrolled(ref);
   const reduced = usePrefersReducedMotion();

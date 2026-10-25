@@ -5,7 +5,7 @@
 
 ## 목록
 
-- [참고 레포 두 곳](./reference-prior-repos.md) — 졸업(직접 기준)·가족 한마당(지도 출처) 로컬 경로. 졸업 커밋 형식은 Claude Code 시기 것을 따를 것
+- [참고 레포 두 곳](./reference-prior-repos.md) — 졸업(직접 기준)·가족 한마당(지도 출처) 로컬 경로. 졸업 커밋 형식은 Claude Code 시기 것을 따를 것. 지도 코드는 2026-10-25부터 출처와 다름
 - [이전 프로젝트 컨벤션 답습 선호](./prefers-mirroring-prior-project.md) — 새 구조를 발명하지 말 것. 조사 → 질문 → 승인 → 실행
 - [관습적·담백한 UI 선호](./prefers-plain-conventional-ui.md) — 장식을 더하지 말고 먼저 제안할 것
 - [커밋·푸시는 지시받을 때만](./ask-before-commit-push.md) — push가 곧 공개 배포. 사용자는 「커밋 및 푸시 진행해」로 지시한다

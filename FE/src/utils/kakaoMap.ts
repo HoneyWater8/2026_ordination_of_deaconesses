@@ -1,7 +1,8 @@
 /* ─────────────────────────────────────────────────────────
    Kakao Maps JavaScript SDK 동적 로더 + 훅
    - VITE_KAKAO_MAP_KEY 환경변수에서 키 읽음
-   - 키 미설정 시 silent fail → placeholder 폴백
+   - KakaoMap이 화면에 가까워졌을 때만 SDK를 부른다 — useKakaoMapsSdk(enabled)
+   - 키가 없거나 SDK를 못 불러오면 failed → 지도 자리에 실패 안내
    - 공유(VITE_KAKAO_JS_KEY)와 다른 앱의 키다. 카카오맵 무료 쿼터가
      2026_hanaro_family_festival 앱에 있어 그 앱의 플랫폼 키를 쓴다 (2026-10-23).
    ───────────────────────────────────────────────────────── */

@@ -21,7 +21,7 @@
 - 색·폰트·모션은 반드시 `src/theme/tokens.ts`의 `BL` / `FF` / `MOTION` 경유. 하드코딩 금지. 예외 두 가지 — 꽃 그림(`Flower.tsx`)의 팔레트는 시안 색 그대로, 그림자·반투명 배경의 `rgba()`는 `BL.text`(58,42,44)·`BL.bg`(255,248,244) 값을 풀어 쓴다
 - 행사 콘텐츠(일시·장소·초대글·명단·안내·꽃 이름·말씀)는 전부 `src/data/ordination.ts` 한 파일. 섹션 제목·버튼 문구 같은 UI 라벨은 컴포넌트에 둔다. 꽃 **그림**만 `components/common/Flower.tsx`
 - 컴포넌트는 named export(`export function Hero()`), 섹션 1개 = 파일 1개
-- 파일 헤더 주석을 둘 때는 `/* ───── 제목 ───── */` 박스 형식 (지금은 데이터·유틸·일부 섹션에만 있다). 주석은 한국어로 **"왜"**를 설명
+- 파일 헤더 주석을 둘 때는 `/* ───── 제목 ───── */` 박스 형식 (지금은 일부 파일에만 있다). 주석은 한국어로 **"왜"**를 설명
 - 타입은 `type` 선언 + `import type` (`verbatimModuleSyntax: true`)
 - 섹션 02~08은 `Section`(라벨 → 섹션 꽃 공급 · 배경 꽃 · GA `section_view`). 04(예배 순서)는 2026-10-24 뺐다. 첫 화면·마지막 화면은 고유 레이아웃이라 `useSectionView`만 직접 쓴다
 

@@ -28,7 +28,7 @@ export const BL = {
   cardRadius: 18,
   cardShadow: '0 10px 28px rgba(194,86,106,0.08)',
 
-  /** 사진·지도 자리 배경 — 이 위의 label은 3.99:1이라 큰 글씨(이니셜)·placeholder에만 */
+  /** 사진·지도 자리 배경 — 이 위의 label은 3.99:1이라 큰 글씨(임직자 이니셜)에만. 지도 실패 안내는 text·textSoft(10.6·5.2:1) */
   photo:    '#F7DEDA',
   /** 영상 자리 배경 — 플레이어가 뜨기 전에 보이는 바탕. 영상 화면과 이어지게 어두운 색 */
   video:    '#241A1C',

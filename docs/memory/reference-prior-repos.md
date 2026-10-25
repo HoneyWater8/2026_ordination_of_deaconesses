@@ -13,6 +13,7 @@ metadata:
 
 - 졸업 레포의 설정 파일 5종(`tsconfig*`·`eslint.config.js`·`vite.config.ts`)과 `package-lock.json`을 그대로 가져왔다(이름만 변경).
 - 가족 한마당의 지도 코드는 원래 lint 오류 5건(`any`)이 있어 타입만 보강해 가져왔다. 그 레포의 Vercel 프로젝트는 삭제된 상태다.
+- **지도 코드는 2026-10-25 검토로 출처와 달라졌다** — 화면에 가까워지면 불러오기 · 지도가 터치를 받지 않음(`pointer-events: none`) · 실패 안내 문구 · 네이버지도 장소 페이지 · 복사 함수를 `utils/share.ts`의 `copyText`로 통합. 가족 한마당 코드로 되돌리지 않는다(이유는 CLAUDE.md 「되돌리면 안 되는 것」).
 - **졸업 레포 커밋은 두 시기로 나뉜다.** 09-07~09-11의 24개는 Claude Code(본문 + `Co-Authored-By`·`Claude-Session` trailer), 09-16~09-29의 14개는 Codex(제목 한 줄, trailer 없음). 작업로그도 Codex 시기 일부는 형식이 다르다. 이 레포에서는 **Claude Code 시기 형식**과 `docs/worklog/README.md`의 원래 형식을 따른다.
 - 졸업 레포 사용자 지시의 원본 기록: Claude Code `~/.claude/history.jsonl`(09-07~09-11), Codex `~/.codex/history.jsonl`(09-16~09-29).
 

@@ -70,7 +70,7 @@
 
 | # | 섹션 | 핵심 요소 |
 |---|---|---|
-| 01 | **Hero** | 로고 · 교회명 · `Ordination Thanksgiving Service` · 「권사 *임직* / 감사예배」 · 꽃 구분선 · 일시·장소 · 꽃 이름(살구꽃) · 모서리 살구꽃 가지와 흩날리는 꽃잎<br>하단 SCROLL 힌트 — 스크롤하지 않은 채 3초가 지나면 나타나고, 한 번이라도 스크롤하면 사라져 다시 나오지 않음 (졸업 레포와 같은 동작) |
+| 01 | **Hero** | 로고 · 교회명 · `Ordination Thanksgiving Service` · 「권사 *임직* / 감사예배」 · 꽃 구분선 · 일시·장소 · 꽃 이름(살구꽃) · 모서리 살구꽃 가지와 흩날리는 꽃잎<br>하단 SCROLL 힌트 — 스크롤하지 않은 채 2.5초가 지나면 나타나고, 한 번이라도 스크롤하면 사라져 다시 나오지 않음 (졸업 레포와 같은 동작) |
 | 02 | **모시는 글** | 담당자 초대글 원문 + 「하나로교회」 |
 | 03 | **예배 일시** | 날짜·시간 + D-day 배지 + 11월 달력(8일 강조, 일요일 「주」) |
 | 05 | **임직받으시는 분** | 「66명의 권사님을 세웁니다」 + 4열 원형 사진 그리드(가나다순). 동명이인 접미사(`김영남B`)는 작게. 탭해도 확대하지 않음 |
@@ -108,7 +108,7 @@
 │   │   ├── theme/tokens.ts             # BL(색), FF(폰트), MOTION, LAYOUT
 │   │   ├── data/
 │   │   │   ├── types.ts                # OrdinationData · FlowerKind · SectionLabel
-│   │   │   └── ordination.ts           # 모든 정적 콘텐츠 (교체 지점)
+│   │   │   └── ordination.ts           # 행사 콘텐츠 전부 (교체 지점). UI 문구는 각 컴포넌트
 │   │   ├── hooks/                      # useReveal · useInView · useSectionView ·
 │   │   │                               #   useSectionFlower · usePrefersReducedMotion · useScrolled
 │   │   ├── components/
@@ -124,8 +124,8 @@
 │   │       ├── share.ts                # 정식 URL · 클립보드 복사(대체 경로 포함) · 네이티브 공유 폴백
 │   │       └── analytics.ts            # GA4 커스텀 이벤트 track() · 오류 trackError()·initErrorTracking()
 │   ├── scripts/font-text.mjs           # 소스 문자열 → 부분 폰트 글자 검사 (빌드 첫 단계)
-│   ├── index.html                      # OG 태그 · GA4 표준 스니펫
-│   ├── vercel.json                     # 정적 파일 캐시 헤더
+│   ├── index.html                      # OG 태그 · noindex 메타 · GA4 표준 스니펫
+│   ├── vercel.json                     # 정적 파일 캐시 헤더 · 검색 노출 차단 헤더(X-Robots-Tag)
 │   ├── .env.example
 │   └── package.json
 │
@@ -166,7 +166,7 @@ npm run build      # 폰트 글자 검사 → tsc -b → vite build
 npm run lint
 ```
 
-지도는 `FE/.env.local`의 `VITE_KAKAO_MAP_KEY`가 있어야 뜹니다. 없으면 지도 자리에 placeholder가 나옵니다 (`npx vercel env pull .env.local`).
+지도는 `FE/.env.local`의 `VITE_KAKAO_MAP_KEY`가 있어야 뜹니다. 없으면 지도 자리에 「지도를 불러오지 못했어요」 안내가 나오고 길찾기 버튼은 그대로 동작합니다 (`npx vercel env pull .env.local`).
 
 ---
 
@@ -202,7 +202,7 @@ npx vercel link --yes --project 2026_ordination_of_deaconesses --team su-heon-ch
 
 ### 환경 변수
 
-필수 환경 변수는 없습니다. 비어 있어도 페이지는 placeholder로 동작합니다 (자세한 내용은 `FE/.env.example`).
+필수 환경 변수는 없습니다. 비어 있어도 페이지는 동작합니다 — 지도 자리에 안내 문구, 공유는 네이티브 공유로 폴백 (자세한 내용은 `FE/.env.example`).
 
 | 변수 | 용도 | 등록 | 없을 때 |
 |---|---|---|---|
@@ -263,7 +263,7 @@ npx vercel link --yes --project 2026_ordination_of_deaconesses --team su-heon-ch
 
 ## 콘텐츠 교체 방법
 
-모든 콘텐츠는 [`FE/src/data/ordination.ts`](./FE/src/data/ordination.ts) 한 파일에 있습니다.
+행사 콘텐츠(일시·장소·초대글·명단·안내·꽃 이름·말씀)는 [`FE/src/data/ordination.ts`](./FE/src/data/ordination.ts) 한 파일에 있습니다. 섹션 제목·버튼 문구 같은 UI 라벨은 각 컴포넌트에 있습니다.
 
 **임직자 명단** — `ordainees`는 담당자가 보낸 **원문 순서 그대로** 둡니다. 화면에서 가나다순으로 정렬하며, 사진 번호가 이 순서를 따르므로 사람을 추가할 때는 **맨 뒤에** 붙입니다. `김영남B`의 `B`는 동명이인 구분자라 원문 표기를 유지합니다.
 
@@ -313,6 +313,7 @@ BL.accent   = '#C2566A'   // 장식·큰 글씨 전용 — bg 위 4.14:1
 BL.accent2  = '#8FAA8A'   // 장식 전용 초록
 BL.card     = '#FFFFFF'   // 카드 (radius 18, 장밋빛 그림자)
 BL.photo    = '#F7DEDA'   // 사진·지도 자리
+BL.video    = '#241A1C'   // 영상 자리 (플레이어가 뜨기 전)
 ```
 
 폰트 — 제목은 **고운바탕**, 본문은 **Pretendard**, 영문 라벨은 **Cormorant Garamond(600, 이탤릭)**. 필요한 글자만 부분 폰트로 제공합니다. Pretendard는 OFL Reserved Font Name이 있어 부분 폰트에 원래 이름을 쓸 수 없으므로, 세 서체 모두 내부 이름을 `Ordain Batang`·`Ordain Sans`·`Ordain Garamond`로 바꿨습니다.
@@ -338,7 +339,7 @@ BL.photo    = '#F7DEDA'   // 사진·지도 자리
 9. **추가한 것** — 오시는 길의 실제 지도·길찾기·주소 복사(가족 한마당), 갤러리 확대 보기·공유 버튼(졸업), 20주년 영상(YouTube 임베드).
 10. **YouTube는 표준 플레이어 + 지연 로딩** — 졸업 레포처럼 포스터를 먼저 보여 주고 누르면 플레이어로 바꾸면, 아이폰에서 두 번 눌러야 재생됩니다. 그 방식을 쓴 이유(자체 호스팅 전송량)가 YouTube에는 없어 표준 플레이어를 `loading="lazy"`로 둡니다. Referer를 지우면 YouTube가 재생 오류로 막습니다.
 11. **갤러리 칸은 사진 비율대로** — 시안의 2열 정사각 칸(넓게·2·2·넓게·2)은 받은 사진이 모두 가로라 많이 잘렸습니다. 같은 줄은 높이를 맞추고 폭을 비율대로 나눕니다 (2026-10-25 사용자 요청).
-12. **SCROLL 힌트는 늦게** — 시안은 처음부터 떠 있었습니다. 졸업 레포처럼 스크롤하지 않은 채 3초가 지나면 나타나고, 한 번 스크롤하면 다시 나오지 않습니다 (2026-10-25 사용자 요청).
+12. **SCROLL 힌트는 늦게** — 시안은 처음부터 떠 있었습니다. 졸업 레포처럼 스크롤하지 않은 채 2.5초가 지나면 나타나고, 한 번 스크롤하면 다시 나오지 않습니다 (2026-10-25 사용자 요청, 처음 3초에서 2.5초로).
 13. **꽃잎 수** — 시안의 「섹션 높이 / 420, 최소 2」, 첫 화면 3장에서 「섹션 높이 / 320, 최소 3」, 첫 화면 4장으로 화면 하나에 한 장꼴 늘렸습니다 (2026-10-25 사용자 요청 「살짝만」).
 14. **말씀 제외** — 시안의 핵심이던 꽃 캡션(`꽃 이름 | 장절 | ?` + 구절)에서 장절·「?」·구절과 「?」 해설 시트를 뺐습니다 (2026-10-25 담당 전도사 「말씀 부분은 빼자」). 꽃 이름은 사용자 요청으로 남겼고, 꽃 그림·피어나는 구분선·모서리 꽃·꽃잎은 그대로입니다.
 15. **맺는 말씀** — 시안의 마지막 화면은 종려나무 + 캡션이었습니다. 졸업 레포의 「맺는 말씀」처럼 민수기 17:8 전문을 『 』로 감싸 두고, 꽃을 그 말씀의 살구꽃으로 바꿔 첫 화면과 같은 꽃으로 맺습니다. 종려나무 그림은 쓰는 곳이 없어 지웠습니다 (2026-10-25 사용자 요청).
