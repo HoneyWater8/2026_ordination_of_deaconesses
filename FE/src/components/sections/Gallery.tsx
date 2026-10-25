@@ -51,7 +51,11 @@ export function Gallery() {
                     <button
                       type="button"
                       aria-label={`${photo.caption} 크게 보기`}
-                      onClick={() => { track('photo_open'); setOpenIndex(index); }}
+                      // photo = 파일 번호(gallery/NN.webp)와 같은 01~08 — 어떤 사진이 많이 열렸는지 본다
+                      onClick={() => {
+                        track('photo_open', { photo: String(index + 1).padStart(2, '0') });
+                        setOpenIndex(index);
+                      }}
                       style={{ width: '100%', height: '100%', padding: 0, border: 0, background: 'none', cursor: 'pointer' }}
                     >
                       <img src={photo.thumb} alt={photo.caption} loading="lazy" decoding="async"

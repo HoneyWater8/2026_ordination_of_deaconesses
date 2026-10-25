@@ -34,3 +34,36 @@ export function track(name: string, params?: GtagParams, once = false) {
   }
   window.gtag?.('event', name, params);
 }
+
+/** 한 번 열 때 보내는 오류 수 상한 — 같은 오류가 반복되거나 연쇄로 터져도 집계가 넘치지 않게 */
+const MAX_ERRORS = 5;
+const sentErrors = new Set<string>();
+
+/**
+ * 오류·실패를 GA4 표준 `exception` 이벤트로 보낸다. 같은 내용은 한 번만.
+ *
+ * 아이폰·카카오톡 앱 안 브라우저는 직접 확인하지 못한 환경이라, 그곳에서만 나는 오류를 보려는 것이다.
+ * 카카오 지도·공유처럼 실패해도 화면이 조용히 대체되는 곳은 호출부에서 직접 부른다.
+ * GA 매개변수 값은 100자까지라 자른다.
+ */
+export function trackError(description: string, fatal = false) {
+  const d = description.slice(0, 100);
+  if (sentErrors.has(d) || sentErrors.size >= MAX_ERRORS) return;
+  sentErrors.add(d);
+  track('exception', { description: d, fatal });
+}
+
+/** 처리되지 않은 오류를 모은다. 앱보다 먼저 등록해야 첫 렌더 중 오류도 잡힌다 */
+export function initErrorTracking() {
+  window.addEventListener('error', (e) => {
+    // 다른 출처 스크립트(GA·카카오·YouTube)의 오류는 브라우저가 내용을 가려 "Script error."만 오고,
+    // 앱 안 브라우저가 끼워 넣은 스크립트의 오류는 파일 이름이 없다 — 둘 다 이 앱의 오류가 아니라 버린다
+    if (!e.filename || e.message === 'Script error.') return;
+    // fatal = 앱 코드에서 처리하지 못한 오류(화면이 깨졌을 수 있음). 처리된 실패·Promise 거부는 false
+    trackError(`${e.message.replace(/^Uncaught /, '')} @ ${e.filename.split('/').pop()}:${e.lineno}`, true);
+  });
+  window.addEventListener('unhandledrejection', (e) => {
+    const reason: unknown = e.reason;
+    trackError(`unhandled: ${reason instanceof Error ? reason.message : String(reason)}`);
+  });
+}

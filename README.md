@@ -31,7 +31,7 @@
 | 로고 | ✅ 가족 한마당 레포의 하나로교회 로고 — 흰 배경 제거 (2026-10-24). 누르면 교회 홈페이지(`hanaroch.org`)를 새 창으로 (2026-10-25) |
 | 공유 썸네일 · 탭 아이콘 | ✅ 1200×630 썸네일(로고·제목·일시·살구꽃) / ✅ 탭 아이콘은 첫 화면의 꽃(살구꽃) |
 | 카카오톡 공유 | ✅ 공유 앱 JavaScript 키 등록 (2026-10-25) — 버튼에서 바로 카카오톡 대화방 선택 |
-| 사용자 집계 | ✅ Vercel Web Analytics 활성화 / ⏳ GA4 측정 ID 미수령 |
+| 사용자 집계 | ✅ Vercel Web Analytics 활성화 / ✅ GA4 `G-YBDXKFTNVQ` (2026-10-25) |
 
 ---
 
@@ -123,7 +123,7 @@
 │   │       ├── share.ts                # 정식 URL · 링크 복사 · 네이티브 공유 폴백
 │   │       └── analytics.ts            # GA4 커스텀 이벤트 track()
 │   ├── scripts/font-text.mjs           # 소스 문자열 → 부분 폰트 글자 검사 (빌드 첫 단계)
-│   ├── index.html                      # OG 태그 · (예정) GA4 스니펫
+│   ├── index.html                      # OG 태그 · GA4 표준 스니펫
 │   ├── vercel.json                     # 정적 파일 캐시 헤더
 │   ├── .env.example
 │   └── package.json
@@ -223,11 +223,11 @@ npx vercel link --yes --project 2026_ordination_of_deaconesses --team su-heon-ch
 
 | | Vercel Web Analytics | Google Analytics 4 |
 |---|---|---|
-| 무엇 | 방문자 수 · 페이지뷰 · 유입 경로 · 기기 | 섹션 도달 · 지도 앱 · 주소 복사 · 영상 · 사진 확대 · 공유 |
-| 상태 | ✅ 2026-10-23 활성화 | ⏳ 측정 ID 수령 후 `index.html`에 표준 스니펫 |
+| 무엇 | 방문자 수 · 페이지뷰 · 유입 경로 · 기기 | 섹션 도달 · 지도 앱 · 주소 복사 · 영상 · 사진 확대 · 공유 · 앱 안 브라우저 구분 · 오류 |
+| 상태 | ✅ 2026-10-23 활성화 | ✅ 2026-10-25 `G-YBDXKFTNVQ` — `index.html`에 표준 스니펫. `?ga_debug=1`로 열면 DebugView에 실시간 |
 | 보존 | **1개월** (Hobby) | 14개월 |
 
-수집할 GA4 이벤트:
+수집하는 GA4 이벤트 (방문 · 90% 스크롤 · 외부 링크 클릭 · 참여 시간은 GA가 자동으로 셉니다 — 로고의 교회 홈페이지 링크·지도 앱 링크도 「외부 링크 클릭」으로 잡힘):
 
 | 이벤트 | 시점 |
 |---|---|
@@ -235,8 +235,24 @@ npx vercel link --yes --project 2026_ordination_of_deaconesses --team su-heon-ch
 | `map_open` | 길찾기 버튼 (`app` = `kakao`/`naver`/`tmap`) |
 | `address_copy` | 주소 복사 |
 | `video_play` | 20주년 영상 플레이어를 누름 (`video` = `anniversary`). 다른 출처 플레이어라 초점 이동으로 센 **근사치** |
-| `photo_open` | 갤러리 사진 확대 |
+| `photo_open` | 갤러리 사진 확대 (`photo` = `01`~`08`, 파일 번호와 같음) |
 | `share_open` · `share_kakao` · `share_native` · `share_copy` | 공유 시트 열기와 각 경로 |
+| `exception` | 오류 (`description`, `fatal`). 앱 코드에서 처리하지 못한 오류·Promise 거부, 그리고 화면이 조용히 대체되는 카카오 지도 로드 실패(`kakao_map: …`)·카카오 공유 실패(`kakao_share: …`). 같은 내용은 1회, 한 번 열 때 최대 5건. 다른 출처 스크립트의 `Script error.`와 파일 이름 없는 오류(앱 안 브라우저가 끼워 넣은 스크립트)는 버림 |
+
+사용자 속성 `in_app` — 어느 앱 안에서 열었는지 (`kakaotalk` / `naver` / `band` / `instagram` / `facebook` / `other_webview` / `browser`). 앱 안 브라우저는 출처를 넘기지 않아 카카오톡 유입이 「직접 방문」으로 잡히므로(졸업 레포 운영 통계에서 겪음) 브라우저 정보로 구분합니다. `index.html` 스니펫에서 `config`보다 먼저 `set` 해 첫 `page_view`부터 붙습니다.
+
+> ⚠️ **매개변수는 GA4에 「맞춤 측정기준」으로 등록해야 보고서에서 나눠 볼 수 있고, 등록 전 데이터에는 소급되지 않습니다** (졸업 레포는 행사가 끝난 뒤 등록해 행사 기간을 섹션별로 볼 수 없었음). 관리 → 데이터 표시 → 맞춤 정의 → 맞춤 측정기준 만들기:
+>
+> | 측정기준 이름 | 범위 | 이벤트 매개변수 / 사용자 속성 |
+> |---|---|---|
+> | 섹션 | 이벤트 | `section` |
+> | 지도 앱 | 이벤트 | `app` |
+> | 영상 | 이벤트 | `video` |
+> | 사진 번호 | 이벤트 | `photo` |
+> | 오류 내용 | 이벤트 | `description` |
+> | 앱 안 브라우저 | 사용자 | `in_app` |
+>
+> `share_copy`의 `ok`, `exception`의 `fatal`은 등록하지 않습니다 (졸업과 같음).
 
 > ⚠️ Hobby 플랜은 Vercel 데이터를 1개월만 보존합니다. 예배(11-08) 후 통계를 남기려면 **2026년 12월 초 전에** 대시보드를 캡처하세요.
 
@@ -351,7 +367,7 @@ Claude Design 핸드오프 번들 중 이번 프로젝트 자료만 옮겼습니
 - [x] ~~성경 구절 원문 대조 · 「?」 해설글 검토~~ — 2026-10-25 담당 전도사 피드백으로 말씀 부분을 빼 필요 없어짐
 - [x] ~~공유 썸네일~~ — 2026-10-24 1200×630 (로고·제목·일시·살구꽃)
 - [x] ~~카카오 공유 앱 JavaScript 키~~ — 2026-10-25 `VITE_KAKAO_JS_KEY` (Vercel Production·Preview)
-- [ ] GA4 측정 ID → `index.html` 표준 스니펫
+- [x] ~~GA4 측정 ID~~ — 2026-10-25 `G-YBDXKFTNVQ`, `index.html` 표준 스니펫
 - [x] ~~첫 배포 후 프로덕션 별칭 · 배포 주소에서 지도~~ — 2026-10-24 확인
 - [ ] 아이폰/카카오 인앱 실기기 확인 — 카카오톡 공유(키 적용 후)는 2026-10-25 사용자가 휴대폰에서 동작 확인
 

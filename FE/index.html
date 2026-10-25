@@ -29,9 +29,33 @@
     <link rel="icon" type="image/png" sizes="180x180" href="/icons/favicon-180.png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
-    <!-- Google Analytics 4 — 측정 ID를 받으면 구글 표준 스니펫을 여기에 그대로 넣는다.
-         모듈로 감싸 동적 로드하면 page_view가 en 파라미터 없이 나가 GA가 버린다
-         (아멘 제자 17기 졸업 레포 2026-09-11). 그 전까지 track()은 아무것도 보내지 않는다. -->
+    <!-- Google Analytics 4 — 구글 표준 스니펫 그대로 (2026-10-25 측정 ID 수령).
+         번들러를 거치지 않고 여기에 두는 이유: gtag는 `arguments` 객체를 dataLayer에
+         push해야 하는데, 모듈로 감싸 동적 로드하면 page_view가 en 파라미터 없이
+         나가 GA가 이벤트를 인식하지 못한다 (아멘 제자 17기 졸업 레포 2026-09-11).
+         측정 ID는 스크립트에 노출되는 공개 값이라 하드코딩해도 무방하다.
+         ?ga_debug=1 로 접속하면 DebugView에 실시간으로 찍힌다.
+         in_app(사용자 속성) — 어느 앱 안에서 열었는지. 앱 안 브라우저는 출처를 넘기지 않아
+         카카오톡 유입이 「직접 방문」으로 잡히므로(졸업 레포 운영 통계) 브라우저 정보로 구분한다.
+         config보다 먼저 set 해야 첫 page_view에도 붙는다. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YBDXKFTNVQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      var ua = navigator.userAgent;
+      gtag('set', 'user_properties', {
+        in_app: /KAKAOTALK/i.test(ua) ? 'kakaotalk'
+          : /NAVER\(inapp/i.test(ua) ? 'naver'
+          : /BAND\//.test(ua) ? 'band'
+          : /Instagram/.test(ua) ? 'instagram'
+          : /FBAN|FBAV/.test(ua) ? 'facebook'
+          : /; wv\)/.test(ua) ? 'other_webview'
+          : 'browser',
+      });
+      gtag('config', 'G-YBDXKFTNVQ',
+        new URLSearchParams(location.search).has('ga_debug') ? { debug_mode: true } : {});
+    </script>
 
   </head>
   <body>

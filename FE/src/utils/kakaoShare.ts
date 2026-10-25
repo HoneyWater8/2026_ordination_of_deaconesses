@@ -8,6 +8,8 @@
      카드 내용을 바꾸려면 여기가 아니라 index.html을 고쳐야 한다.
    ───────────────────────────────────────────────────────── */
 
+import { trackError } from './analytics';
+
 type KakaoSDK = {
   isInitialized: () => boolean;
   init: (key: string) => void;
@@ -63,6 +65,8 @@ export async function shareToKakao(url: string): Promise<boolean> {
     return true;
   } catch (e) {
     console.error('[Kakao Share]', e);
+    // 호출부가 기본 공유·복사로 넘어가 사용자는 모른다 — 카카오 공유가 실패한 기기를 집계로 본다
+    trackError(`kakao_share: ${e instanceof Error ? e.message : String(e)}`);
     return false;
   }
 }

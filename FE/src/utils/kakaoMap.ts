@@ -7,6 +7,7 @@
    ───────────────────────────────────────────────────────── */
 
 import { useEffect, useState } from 'react';
+import { trackError } from './analytics';
 
 // Kakao Maps SDK는 d.ts가 없어 이 프로젝트에서 쓰는 만큼만 선언한다.
 export type KakaoLatLng = { getLat: () => number; getLng: () => number };
@@ -109,6 +110,8 @@ export function useKakaoMapsSdk(): KakaoMapsApi | null {
       },
       (err) => {
         if (import.meta.env.DEV) console.warn('[KakaoMap] SDK load failed:', err);
+        // 화면은 조용히 폴백으로 바뀌므로, 실기기에서 실패했는지는 집계로만 알 수 있다
+        trackError(`kakao_map: ${err instanceof Error ? err.message : String(err)}`);
       }
     );
     return () => {

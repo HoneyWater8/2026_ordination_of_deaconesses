@@ -37,7 +37,7 @@
 - 섹션 꽃잎은 `od-fall-y`(세로)와 `od-spin-x`(흔들림)를 **다른 레이어**에 둔다
 - 섹션 라벨 번호(`05 Ordainees` 등)를 당기지 말 것 — 라벨이 배경 꽃의 좌우·기울기 시드라 뒤 섹션 꽃 배치가 바뀐다. 섹션을 넣고 빼면 교차 배경(`alt`·마지막 화면 bg2)이 번갈아 나오는지 확인
 - 꽃 그라디언트 id는 `useId`로 섞는다 — 같은 꽃이 여러 번 그려지면 id가 겹쳐 색이 바뀐다
-- GA4 초기화는 `index.html`의 구글 표준 스니펫 그대로 둘 것 (모듈로 감싸 동적 로드하면 `page_view`가 `en` 없이 나가 GA가 버림) — 측정 ID 수령 후 추가
+- GA4 초기화는 `index.html`의 구글 표준 스니펫 그대로 둘 것 (모듈로 감싸 동적 로드하면 `page_view`가 `en` 없이 나가 GA가 버림). 사용자 속성 `in_app`은 그 안에서 `config`보다 **먼저** `set` — 뒤에 두면 첫 `page_view`에 안 붙는다. 이벤트 매개변수를 새로 만들면 GA4 맞춤 측정기준 등록이 필요하다 (README 「사용자 집계」)
 - `setPointerCapture`는 드래그 임계값을 넘은 뒤에 (확대 보기 버튼이 click을 못 받음)
 - 20주년 영상은 YouTube 표준 플레이어 + `loading="lazy"`. 포스터를 먼저 보여 주는 방식으로 바꾸지 말 것 — 아이폰에서 두 번 눌러야 재생된다. iframe의 Referer를 지우지 말 것 — YouTube가 재생 오류로 막는다
 - `animation-fill-mode` — 진입은 `backwards`, 닫힘은 `forwards`
