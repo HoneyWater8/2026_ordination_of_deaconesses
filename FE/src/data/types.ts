@@ -68,8 +68,10 @@ export type OrdinationData = {
   heroTitle: { lead: string; accent: string; sub: string };
   /** 로고 이미지 경로 (scripts/prepare-logo.py 결과를 import). 없으면 LOGO 자리 표시 */
   logo?: string;
-  /** 교회 홈페이지 — 로고를 누르면 새 창으로 연다 */
+  /** 교회 홈페이지 — 로고를 누르면 새 창으로 연다. 마지막 화면에도 주소를 적는다 */
   homepage: string;
+  /** 교회 대표 전화 — 마지막 화면에 적고 누르면 전화를 건다 */
+  phone: string;
   date: { y: number; m: number; d: number; dayKo: string; time: string };
   place: Place;
   invite: string[];

@@ -35,6 +35,8 @@ export const O: OrdinationData = {
   logo: logoUrl,
   // 2026-10-25 사용자 요청 — 로고를 누르면 교회 홈페이지로
   homepage: 'https://hanaroch.org',
+  // 2026-10-27 담당 전도사 요청 — 마지막 화면에 교회 연락처와 홈페이지 주소 (번호는 홈페이지 표기와 같다)
+  phone: '031-992-9191',
 
   date: { y: 2026, m: 11, d: 8, dayKo: '주일', time: '오후 2시' },
 
