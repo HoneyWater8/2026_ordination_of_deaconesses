@@ -14,7 +14,7 @@ export const BL = {
   text:     '#3A2A2C',
   textSoft: '#6B585A',
 
-  /** 작은 글씨용 강조색 — bg 위 4.86:1. 영문 라벨·꽃 이름·배지·달력 강조 */
+  /** 작은 글씨용 강조색 — bg 위 4.86:1. 영문 라벨·장절·배지·달력 강조 */
   label:    '#B44B60',
   /** 장식·큰 글씨 전용 — bg 위 4.14:1이라 24px 미만 텍스트 금지 (작은 글씨는 label) */
   accent:   '#C2566A',
@@ -53,8 +53,6 @@ export const MOTION = {
   ornBloom:   'transform 1.1s cubic-bezier(.34,1.56,.64,1) .15s',
   /** 구분선 양옆 선이 가운데서 펼쳐짐 */
   ornLine:    'transform 1s cubic-bezier(.22,1,.36,1) .35s',
-  /** 꽃이 핀 뒤 꽃 이름 등장 */
-  captionIn:  'opacity .8s ease .9s, transform .8s ease .9s',
 
   /** 첫 화면 하단 SCROLL 바운스 */
   scrollBob:  'od-bob 2.2s ease-in-out infinite',

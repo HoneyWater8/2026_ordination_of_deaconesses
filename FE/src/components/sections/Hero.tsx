@@ -11,7 +11,6 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { Reveal } from '../common/Reveal';
 import { Logo } from '../common/Logo';
 import { FlowerOrn } from '../common/FlowerOrn';
-import { FlowerCaption } from '../common/FlowerCaption';
 import { ScrollHint } from '../common/ScrollHint';
 import { Flower, FlowerBit } from '../common/Flower';
 
@@ -105,7 +104,6 @@ export function Hero() {
           <div style={{ marginTop: 7, fontFamily: FF.body, fontSize: 13.5, color: BL.textSoft }}>
             {O.place.name}
           </div>
-          <FlowerCaption kind={HERO_FLOWER} style={{ marginTop: 22 }} />
         </Reveal>
       </div>
 

@@ -7,7 +7,6 @@ import { BL, FF } from '../../theme/tokens';
 import { O } from '../../data/ordination';
 import { useSectionView } from '../../hooks/useSectionView';
 import { Flower } from '../common/Flower';
-import { FlowerCaption } from '../common/FlowerCaption';
 import { Logo } from '../common/Logo';
 
 const FOOTER_FLOWER = O.flowers.bySection['09 Footer'] ?? 'almond';
@@ -34,9 +33,8 @@ export function Footer() {
     }}>
       <div style={{ flex: 1 }} />
 
-      <div style={{ marginBottom: 30 }}>
-        <div style={{ display: 'flex', justifyContent: 'center' }}><Flower kind={FOOTER_FLOWER} size={66} /></div>
-        <FlowerCaption kind={FOOTER_FLOWER} style={{ marginTop: 10 }} />
+      <div style={{ marginBottom: 30, display: 'flex', justifyContent: 'center' }}>
+        <Flower kind={FOOTER_FLOWER} size={66} />
       </div>
       <div style={{
         marginBottom: 34, fontFamily: FF.display, fontSize: 14.5, lineHeight: 2, color: BL.text, wordBreak: 'keep-all',
